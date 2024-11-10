@@ -1,0 +1,89 @@
+﻿@page "/quizoverview"
+@page "/quizoverview/{TopicId:guid?}"
+
+@attribute [Authorize]
+
+@using quiz.Ui.Components
+@using quiz.ModelBusiness
+
+@* Если данные в контрол ещё не загружены полностью, то *@
+@if (!IsLoaded)
+{
+    // Отображение пользователю надписи "Загрузка".
+    <p class="align-middle"><em>Загрузка&hellip;</em></p>
+}
+else
+{
+    @* Если нет данных для отображения, то *@
+    @if (!QuestionsForQuiz.Any())
+    {
+        // Отображение пользователю надписи "Нет данных".
+        <p class="align-middle"><em>Нет данных</em></p>
+    }
+    else
+    {
+        @* Вывод списка вопросов. *@
+        @foreach (QuestionModel currentQuestion in QuestionsForQuiz.OrderBy(i => i.CreatedAt))
+        {
+            <fieldset id="Question_@currentQuestion.Id" class="row my-3">
+                <div class="col">
+                    @* Вывод текста вопроса *@
+                    <label class="form-check-label">@currentQuestion.QuestionText</label>
+
+                    @* Вывод списка ответов на вопрос. 
+                    По материалам https://stackoverflow.com/questions/64365100/how-to-bind-radio-buttons-in-blazor
+                    Здесь используются нативные для HTML элементы управления input type="radio" вместо элементов управления InputRadio, нативных для Blazor. Это позволяет отказаться от использования EditForm на странице но порождает невозможность получения в коде информации о выбранном элементе. Пример использования элементов управления InputRadio можно увидеть на странице TopicChooseOverview.razor. *@
+                    <div class="row">
+                        <label class="col-auto">
+                            <input type="radio" checked="@(currentQuestion.OptionIsSelected01)" class="form-check-input" @onchange="@(() => { currentQuestion.OptionIsSelected01 = true;  HasChanges=true; })" name="Question_@currentQuestion.Id" />
+                            @currentQuestion.Option01
+                        </label>
+                        <div class="col">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-auto">
+                            <input type="radio" checked="@(currentQuestion.OptionIsSelected02)" class="form-check-input" @onchange="@(() => { currentQuestion.OptionIsSelected02 = true;  HasChanges=true; })" name="Question_@currentQuestion.Id" />
+                            @currentQuestion.Option02
+                        </label>
+                        <div class="col">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-auto">
+                            <input type="radio" checked="@(currentQuestion.OptionIsSelected03)" class="form-check-input" @onchange="@(() => { currentQuestion.OptionIsSelected03 = true;  HasChanges=true; })" name="Question_@currentQuestion.Id" />
+                            @currentQuestion.Option03
+                        </label>
+                        <div class="col">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-auto">
+                            <input type="radio" checked="@(currentQuestion.OptionIsSelected04)" class="form-check-input" @onchange="@(() => { currentQuestion.OptionIsSelected04 = true;  HasChanges=true; })" name="Question_@currentQuestion.Id" />
+                            @currentQuestion.Option04
+                        </label>
+                        <div class="col">
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        }
+
+        @* Если зафиксированы ошибки, то *@
+        @if (HasErrors)
+        {
+            // Вывод текста сообщения об ошибке.
+            <div class="alert alert-danger mt-2">@ResultDescription</div>
+        }
+
+        @* Кнопки управления *@
+        <div class="row">
+            @* Рамка отступов вокруг кнопок управления *@
+            <div class="col d-flex align-content-stretch mx-1 mt-2">
+                <button type="button" class="btn btn-outline-primary text-center m-1 ms-auto" style="width: 210px" @onclick="@NavigateToTopicChoosePage">К выбору темы</button>
+                <button type="button" @onclick="OnSubmitClick" class="btn btn-primary text-center m-1" style="width: 210px" disabled="@(!HasChanges)">Отправить</button>
+            </div>
+        </div>
+    }
+}
+

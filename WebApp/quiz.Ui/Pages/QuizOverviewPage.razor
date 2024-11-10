@@ -1,0 +1,19 @@
+﻿@page "/QuizOverviewPage"
+@page "/QuizOverviewPage/{TopicId:guid?}"
+
+@attribute [Authorize]
+
+@using quiz.Ui.Components
+
+<PageTitle>@HeaderText</PageTitle>
+
+<div class="card border-primary mt-2 mb-3">
+    @* Заголовок карточки *@
+    <div class="card-header h5">@HeaderText</div>
+    @* Тело карточки *@
+    <div class="card-body">
+        <div class="card-text">
+            <QuizOverview TopicId="@TopicId"></QuizOverview>
+        </div>
+    </div>
+</div>

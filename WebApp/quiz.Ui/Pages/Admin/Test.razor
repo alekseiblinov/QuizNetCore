@@ -1,0 +1,38 @@
+﻿@page "/test"
+
+@attribute [Authorize(Roles = "Администраторы")]
+
+<LayoutView Layout="@typeof(AdminLayout)">
+    <p class="h3">Страница для проведения испытаний.</p>
+    
+    <AuthorizeView>
+        <Authorized>
+            <h2 class="text-success">Пользователь авторизован</h2>
+        </Authorized>
+        <NotAuthorized>
+            <h2 class="text-danger">Пользователь не авторизован</h2>
+        </NotAuthorized>
+    </AuthorizeView>
+    <AuthorizeView Roles="Студенты">
+        <Authorized>
+            <h2 class="text-success">Пользователь входит в роль с именем "Студенты"</h2>
+        </Authorized>
+        <NotAuthorized>
+            <h2 class="text-danger">Пользователь не входит в роль с именем "Студенты"</h2>
+        </NotAuthorized>
+    </AuthorizeView>
+    <AuthorizeView Roles="Администраторы">
+        <Authorized>
+            <h2 class="text-success">Пользователь входит в роль с именем "Администраторы"</h2>
+        </Authorized>
+        <NotAuthorized>
+            <h2 class="text-danger">Пользователь не входит в роль с именем "Администраторы"</h2>
+        </NotAuthorized>
+    </AuthorizeView>
+    <div class="row">
+        <button type="button" @onclick="GetSecurityTokenAsync" class="btn btn-outline-primary text-center col-auto m-1">Сгенерировать токен (вход)</button>
+    </div>
+    <div class="row">
+        <button type="button" @onclick="RevokeSecurityTokenAsync" class="btn btn-outline-primary text-center col-auto m-1">Отозвать токен (выход)</button>
+    </div>
+</LayoutView>

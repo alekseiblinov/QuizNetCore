@@ -1,0 +1,126 @@
+﻿@page "/resultsoverview"
+@page "/resultsoverview/{QuizId:guid?}"
+
+@attribute [Authorize]
+
+@using quiz.Ui.Components
+@using quiz.ModelBusiness
+
+@* Если данные в контрол ещё не загружены полностью, то *@
+@if (!IsLoaded)
+{
+    // Отображение пользователю надписи "Загрузка".
+    <p class="align-middle"><em>Загрузка&hellip;</em></p>
+}
+else
+{
+    @* Если пользователю разрешено просматривать результаты теста, то *@
+    @if (CanUserSeeQuizResults)
+    {
+        @* Если нет данных для отображения, то *@
+        @if (!CorrectAnswers.Any() && !IncorrectAnswers.Any())
+        {
+            // Отображение пользователю надписи "Нет данных".
+            <p class="align-middle"><em>Нет данных</em></p>
+        }
+        else
+        {
+            <div class="lead">
+                Правильных ответов @CorrectAnswers.Count из @(IncorrectAnswers.Count + CorrectAnswers.Count).
+            </div>
+
+            <div class="h6 text-success mt-4 mb-2">
+                Правильные ответы
+            </div>
+
+            @* Формирование таблицы со списком вопросов, на которые был дан правильный ответ. *@
+            <table class="table table-sm table-responsive-lg table-bordered text-center">
+                <thead>
+                    <tr>
+                        <th class="align-middle">Вопрос</th>
+                        <th class="align-middle">Ответ</th>
+                        <th class="align-middle">Дата и время</th>
+                        <th class="align-middle">Интервал повторения (дней)</th>
+                        <th class="align-middle">Следующее повторение</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <Virtualize Context="currentObject" Items="@CorrectAnswers.ToList()" TItem="ResultModel">
+                        <ItemContent>
+                            <tr>
+                                <td class="align-middle">@currentObject.QuestionText</td>
+                                <td class="align-middle">@currentObject.CorrectAnswerText</td>
+                                <td class="align-middle">@currentObject.AnsweredAt</td>
+                                <td class="align-middle">@currentObject.RepetitionInterval</td>
+                                <td class="align-middle">@currentObject.NextDueCaption</td>
+                            </tr>
+                        </ItemContent>
+                        <Placeholder>
+                            <p>
+                                Загрузка&hellip;
+                            </p>
+                        </Placeholder>
+                    </Virtualize>
+                </tbody>
+            </table>
+
+            <div class="h6 text-danger mt-4 mb-2">
+                Неправильные ответы
+            </div>
+
+            @* Формирование таблицы со списком вопросов, на которые был дан неправильный ответ. *@
+            <table class="table table-sm table-responsive-lg table-bordered text-center">
+                <thead>
+                    <tr>
+                        <th class="align-middle">Вопрос</th>
+                        <th class="align-middle">Выбранный ответ</th>
+                        <th class="align-middle">Правильный ответ</th>
+                        <th class="align-middle">Дата и время</th>
+                        <th class="align-middle">Интервал повторения (дней)</th>
+                        <th class="align-middle">Следующее повторение</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <Virtualize Context="currentObject" Items="@IncorrectAnswers.ToList()" TItem="ResultModel">
+                        <ItemContent>
+                            <tr>
+                                <td class="align-middle">@currentObject.QuestionText</td>
+                                <td class="align-middle">@currentObject.SelectedAnswerText</td>
+                                <td class="align-middle">@currentObject.CorrectAnswerText</td>
+                                <td class="align-middle">@currentObject.AnsweredAt</td>
+                                <td class="align-middle">@currentObject.RepetitionInterval</td>
+                                <td class="align-middle">@currentObject.NextDue</td>
+                            </tr>
+                        </ItemContent>
+                        <Placeholder>
+                            <p>
+                                Загрузка&hellip;
+                            </p>
+                        </Placeholder>
+                    </Virtualize>
+                </tbody>
+            </table>
+
+            @* Если зафиксированы ошибки, то *@
+            @if (HasErrors)
+            {
+                // Вывод текста сообщения об ошибке.
+                <div class="alert alert-danger mt-2">@ResultDescription</div>
+            }
+
+            @* Кнопки управления *@
+            <div class="row">
+                @* Рамка отступов вокруг кнопок управления *@
+                <div class="col d-flex align-content-stretch mx-1 mt-2">
+                    <button type="button" class="btn btn-outline-primary text-center m-1 ms-auto" style="width: 210px" @onclick="@NavigateToTopicChoosePage">К выбору темы</button>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="h3">
+            Недостаточно прав для отображения результатов этого теста.
+        </div>
+    }
+}

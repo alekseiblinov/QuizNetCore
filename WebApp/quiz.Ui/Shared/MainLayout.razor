@@ -1,0 +1,29 @@
+﻿@inherits LayoutComponentBase
+
+<PageTitle>quiz.Ui</PageTitle>
+
+<div class="page">
+@*    <div class="sidebar">
+        <NavMenu />
+    </div>*@
+
+    <main>
+        <div class="top-row px-4 auth">
+            <LoginDisplay />
+            
+            <AuthorizeView Roles="Администраторы">
+                <Authorized>
+                    <NavLink class="nav-link" href="/Identity/Account/UsersOverview">
+                        <span class="oi oi-dashboard" aria-hidden="true"></span> Администрирование
+                    </NavLink>
+                </Authorized>
+            </AuthorizeView>
+
+            @*<a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>*@
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>

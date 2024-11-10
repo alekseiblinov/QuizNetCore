@@ -1,0 +1,73 @@
+﻿@using quiz.ModelBusiness
+
+@attribute [Authorize(Roles = "Администраторы")]
+
+@* Если данные в контрол ещё не загружены полностью, то *@
+@if (!IsLoaded)
+{
+    // Отображение пользователю надписи "Загрузка".
+    <p class="align-middle"><em>Загрузка&hellip;</em></p>
+}
+else
+{
+    @*<div style="height:250px; overflow-y:scroll">*@
+        @* Формирование таблицы со списком объектов. *@
+        <table class="table table-sm table-responsive-lg table-bordered text-center">
+            <thead>
+            <tr>
+                <th class="align-middle">Название</th>
+                <th class="align-middle">Номер</th>
+            </tr>
+            </thead>
+            <tbody>
+                @* Если при взаимодействии с WebAPI были произошли ошибки, то *@
+                @if (HasWebApiErrors)
+                {
+                    @* Информация о проблемах взаимодействия с WebAPI *@
+                    <div class="alert alert-danger mt-2">@WebApiErrorsDescription</div>
+                }
+                else
+                {            
+                    @* Если нет данных для отображения, то *@
+                    @if (Objects == null || !Objects.Any())
+                    {
+                        // Отображение пользователю надписи "Нет данных".
+                        <p class="align-middle"><em>Нет данных</em></p>
+                    }
+                    else
+                    {
+                        <Virtualize Context="currentObject" Items="@Objects.ToList()" TItem="TopicModel">
+                            <ItemContent>
+                                <tr class="@GetRowHtmlClass(currentObject.Id)" @onclick="() => SelectRowAsync(currentObject.Id)">
+                                    <td class="align-middle">@currentObject.Name</td>
+                                    <td class="align-middle">@currentObject.OrderNumber</td>
+                                </tr>
+                            </ItemContent>
+                            <Placeholder>
+                                <p>
+                                    Загрузка&hellip;
+                                </p>
+                            </Placeholder>
+                        </Virtualize>
+                    }
+                }
+            </tbody>
+        </table>
+    @*</div>*@
+
+    <div class="row">
+        @* Рамка отступов вокруг кнопок управления *@
+        <div class="col-lg d-lg-flex align-content-stretch mx-1 mt-1">
+            <button type="button" @onclick="TopicAdd" class="btn btn-outline-primary text-center col-auto m-1">Добавить</button>
+            @* Отображать дополнительные кнопки управления выбранным элементом. *@
+            <button type="button" @onclick="() => TopicEdit(SelectedElement?.Id ?? Guid.Empty)" class="btn btn-outline-primary text-center m-1" disabled="@(SelectedElement == null)">Редактировать</button>
+            <button type="button" @onclick="ObjectDeleteAsync" class="btn btn-outline-primary text-center m-1" disabled="@(SelectedElement == null)">Удалить</button>
+            @* Отображение кнопок "Вверх" и "Вниз" *@
+            <button type="button" @onclick="RecordMoveUp" class="btn ms-auto btn-outline-primary text-center m-1" disabled="@(IsUpButtonDisabled || SelectedElement == null)">Вверх</button>
+            <button type="button" @onclick="RecordMoveDown" class="btn btn-outline-primary text-center m-1" disabled="@(IsDownButtonDisabled || SelectedElement == null)">Вниз</button>
+        </div>
+    </div>
+
+    // Подключение диалоговых окон - popup-окно подтверждения удаления.
+    <DialogDelete @ref="ObjectDeleteDialog" DeletedSuccessfullyEventCallback="@DeleteDialogTopic_OnDeletedSuccessfully" ObjectDataService="@ObjectDataService" ObjectToDeleteId="@SelectedElement?.Id"></DialogDelete>
+}

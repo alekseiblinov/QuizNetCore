@@ -1,0 +1,10 @@
+﻿@page "/"
+@namespace quiz.Ui.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "_Layout";
+}
+
+@* !!! Для исключения повторного вызова событий OnInitialized и OnPrerendered и удобства отладки при первом запуске приложения потребовалось установить значение "Server" вместо "ServerPrerendered". При размещении на прод. нужно вернуть. *@
+@*<component type="typeof(App)" render-mode="ServerPrerendered" />*@
+<component type="typeof(App)" render-mode="Server" />

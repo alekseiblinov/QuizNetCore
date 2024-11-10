@@ -1,0 +1,14 @@
+﻿<div class="row">
+    <label for="HorizontalAlignment" class="col-md-auto col-form-label">Выравнивание по горизонтали (HorizontalAlignment)</label>
+    <div class="col-md">
+        <InputSelect id="HorizontalAlignment" class="form-control" @bind-Value="SelectedItemValue">
+            @foreach (KeyValuePair<string, string> currentHorizontalAlignment in HorizontalAlignmentTypes)
+            {
+                    <option value="@(currentHorizontalAlignment.Key)">@currentHorizontalAlignment.Value</option>
+            }
+        </InputSelect>        
+        <div class="text-center m-1">
+            <ValidationMessage For="@(() => SelectedItemValue)" />
+        </div>
+    </div>
+</div>  

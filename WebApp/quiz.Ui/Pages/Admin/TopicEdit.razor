@@ -1,0 +1,94 @@
+﻿@page "/topicedit"
+@page "/topicedit/{ReturnUrlEncoded?}"
+@page "/topicedit/{Id:guid?}/{ReturnUrlEncoded?}"
+
+@attribute [Authorize(Roles = "Администраторы")]
+
+@using quiz.Ui.Components
+
+<LayoutView Layout="@typeof(AdminLayout)">
+    <PageTitle>@HeaderText</PageTitle>
+
+    <div class="card border-primary mt-2 mb-3">
+        @* Заголовок карточки *@
+        <div class="card-header h5">@HeaderText</div>
+        @* Тело карточки *@
+        <div class="card-body">
+            <div class="card-text">
+                @* Если данные в контрол ещё не загружены полностью, то *@
+                @if (!IsLoaded)
+                {
+                    // Отображение пользователю надписи "Загрузка".
+                    <p class="align-middle"><em>Загрузка&hellip;</em></p>
+                }
+                else
+                {
+                    @* Если нет данных для отображения, то *@
+                    @if (CurrentEditContext == null || EditingObject == null)
+                    {
+                        // Отображение пользователю надписи "Нет данных".
+                        <p class="align-middle"><em>Нет данных</em></p>
+                    }
+                    else
+                    {
+                        <EditForm EditContext="@CurrentEditContext" OnValidSubmit="@HandleValidSubmitAsync" OnInvalidSubmit="@HandleInvalidSubmit">
+                            <DataAnnotationsValidator/>
+
+                            <div class="row">
+                                <div class="col-lg offset-lg-3 mb-3">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <label for="name" class="col-form-label col-lg-2 ps-0">Название: </label>
+                                <InputText id="name" class="form-control col" @bind-Value="@EditingObject.Name"></InputText>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg offset-lg-3 mb-3">
+                                    <ValidationMessage For="@(() => EditingObject.Name)"/>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <label for="name" class="col-form-label col-lg-2 ps-0">Порядковый номер: </label>
+                                <InputNumber id="name" class="form-control col" @bind-Value="@EditingObject.OrderNumber"></InputNumber>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg offset-lg-3 mb-3">
+                                    <ValidationMessage For="@(() => EditingObject.OrderNumber)"/>
+                                </div>
+                            </div>
+
+                            @* Если зафиксированы ошибки, то *@
+                            @if (HasErrors)
+                            {
+                                // Вывод текста сообщения об ошибке.
+                                <div class="alert alert-danger mt-2">@ResultDescription</div>
+                            }
+
+                            @* Кнопки управления *@
+                            <div class="row">
+                                @* Рамка отступов вокруг кнопок управления *@
+                                <div class="col d-flex align-content-stretch mx-1 mt-2">
+                                    <button type="submit" class="btn btn-outline-primary text-center m-1 ms-auto" style="width: 210px" disabled="@(!HasChanges)">Сохранить</button>
+                                    <button type="button" class="btn btn-outline-primary text-center m-1" style="width: 210px" @onclick="@NavigateToReturnUrl">Отмена</button>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    @* Список Тем. *@
+                                    <TopicPagesOverview TopicId=@EditingObject.Id OnSelectRowChanged="@SelectedTopicPageChanged" IsShowShorNameColumnOnly="true"></TopicPagesOverview>
+                                </div>
+                                <div class="col">
+                                    @* Список Тем. *@
+                                    <TopicPageControlsOverview TopicPageId="@SelectedTopicPage?.Id"></TopicPageControlsOverview>
+                                </div>
+                            </div>
+                        </EditForm>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</LayoutView>

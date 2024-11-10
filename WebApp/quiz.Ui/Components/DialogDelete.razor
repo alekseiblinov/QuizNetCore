@@ -1,0 +1,34 @@
+﻿@if (ShowDialog)
+{
+    <div class="modal fade show d-block border-dark rounded" id="exampleModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                @* Заголовок модального окна *@
+                <div class="modal-header">
+                    <h5 type="button" class="modal-title" id="titleLabel">Удалить выбранную запись?</h5>
+                    <button type="button" class="close" @onclick="@NoAsync" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @* Тело модального окна *@
+                <div class="modal-body">
+                    <div class="row">
+                        @* Если при взаимодействии с WebAPI были произошли ошибки, то *@
+                        @if (HasWebApiErrors)
+                        {
+                            @* Информация о проблемах взаимодействия с WebAPI *@
+                            <div class="alert alert-danger mt-2">@WebApiErrorsDescription</div>
+                        }
+                    </div>
+                    <div class="row">
+                        @* Рамка отступов вокруг кнопок управления *@
+                        <div class="col d-flex mx-1 mt-2">
+                            <button type="button" class="btn btn-outline-primary text-center m-1 ms-auto" style="width: 75px" @onclick="@YesAsync">Да</button>
+                            <button type="button" class="btn btn-outline-primary text-center m-1" style="width: 75px" @onclick="@NoAsync">Нет</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

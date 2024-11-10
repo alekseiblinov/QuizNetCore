@@ -1,0 +1,21 @@
+﻿<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(App).Assembly">
+        <Found Context="routeData">
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <NotAuthorized>
+                    <div class="h3">Недостаточно прав для отображения.</div>
+                </NotAuthorized>
+            </AuthorizeRouteView>
+            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+        </Found>
+        <NotFound>
+            <PageTitle>Not found</PageTitle>
+            <LayoutView Layout="@typeof(MainLayout)">
+                <p role="alert">Извините, страница не найдена.</p>
+            </LayoutView>
+        </NotFound>
+        <Navigating>
+            <p>Загрузка запрошенной страницы&hellip;</p>
+        </Navigating>
+    </Router>
+</CascadingAuthenticationState>

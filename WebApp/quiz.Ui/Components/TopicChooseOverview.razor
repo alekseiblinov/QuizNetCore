@@ -1,0 +1,58 @@
+﻿@page "/topicchooseoverview"
+
+@attribute [Authorize]
+
+@using quiz.Ui.Components
+@using quiz.ModelBusiness
+
+@* Если данные в контрол ещё не загружены полностью, то *@
+@if (!IsLoaded)
+{
+// Отображение пользователю надписи "Загрузка".
+    <p class="align-middle"><em>Загрузка&hellip;</em></p>
+}
+else
+{
+    @* Если нет данных для отображения, то *@
+    @if (!TopicsList.Any())
+    {
+        // Отображение пользователю надписи "Нет данных".
+        <p class="align-middle"><em>Нет данных</em></p>
+    }
+    else
+    {
+        <EditForm EditContext="@CurrentEditContext">
+            <DataAnnotationsValidator />
+
+            @* Вывод списка Тем. *@
+            <InputRadioGroup @bind-Value="SelectedTopicId">
+                @foreach (TopicModel currentTopic in TopicsList.OrderBy(i => i.OrderNumber))
+                {
+                    <div class="row">
+                        <label class="col-auto">
+                            <InputRadio Value="@currentTopic.Id" class="form-check-input" />
+                            @currentTopic.Name
+                        </label>
+                        <div class="col">
+                        </div>
+                    </div>
+                }
+            </InputRadioGroup>
+
+            @* Если зафиксированы ошибки, то *@
+            @if (HasErrors)
+            {
+                // Вывод текста сообщения об ошибке.
+                <div class="alert alert-danger mt-2">@ResultDescription</div>
+            }
+
+            @* Кнопки управления *@
+            <div class="row">
+                @* Рамка отступов вокруг кнопок управления *@
+                <div class="col d-flex align-content-stretch mx-1 mt-2">
+                    <button type="button" @onclick="OnSubmitClick" class="btn btn-primary text-center m-1 ms-auto" style="width: 210px" disabled="@(!HasChanges)">Продолжить</button>
+                </div>
+            </div>
+        </EditForm>
+    }
+}

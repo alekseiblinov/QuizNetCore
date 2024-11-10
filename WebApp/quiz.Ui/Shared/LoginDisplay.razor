@@ -1,0 +1,60 @@
+﻿<AuthorizeView>
+    <Authorized>
+        <p class="col ms-auto"></p>
+        <p class="col-auto p-0 my-0">Пользователь: &nbsp;</p>
+        <a class="col-auto p-0 mx-1" href="Identity/Account/Manage">@context.User.Identity?.Name</a>
+
+        @{ int userRolesCounter = 0; }
+
+        @* Если пользователь входит в роли, то *@
+        @if (CurrentUserRoles != null)
+        {
+            <p class="col-auto mx-1 p-0 my-0 text-secondary">
+                <font size="1">
+                    Роли: &nbsp;
+                </font>
+            </p>
+
+            @if (CurrentUserRoles.Any())
+            {
+                @* Отображение списка ролей, в которые входит пользователь *@
+                @foreach (string currentUserRole in CurrentUserRoles.OrderBy(i => i))
+                {
+                    userRolesCounter++;
+                    <p class="p-0 my-0 text-secondary">
+                        <font size="1">
+                            @currentUserRole
+                        </font>
+                    </p>
+
+                    if (userRolesCounter < CurrentUserRoles.Count)
+                    {
+                        <p class="p-0 my-0 me-1 text-secondary">
+                            <font size="1">
+                                ,
+                            </font>
+                        </p>
+                    }
+                }
+            }
+            else
+            {
+                <p class="p-0 my-0 text-secondary">нет</p>
+            }
+        }
+        
+        <p class="col-auto mx-4"></p>
+
+        <div class="col-auto mx-2">
+            @*Следовало бы для единообразия использовать button Blazor, но для запуска выхода в LogOut.cshtml следует вызывать метод Post вместо Get, поэтому для упрощения решено оставить HTML button.*@
+            @*<button type="button" class="nav-link btn btn-link" @onclick="NavigateToLogoutPage"><u>Выход</u></button>*@
+            <form method="post" action="Identity/Account/LogOut">
+                <button type="submit" class="nav-link btn btn-link"><u>Выход</u></button>
+            </form>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <button type="button" class="nav-link btn btn-link" @onclick="NavigateToLoginPage"><u>Вход</u></button>
+        <button type="button" class="nav-link btn btn-link" @onclick="NavigateToRegisterPage"><u>Регистрация</u></button>
+    </NotAuthorized>
+</AuthorizeView>

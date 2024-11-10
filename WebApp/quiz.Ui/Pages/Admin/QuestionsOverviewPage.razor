@@ -1,0 +1,20 @@
+﻿@page "/QuestionsOverviewPage"
+
+@attribute [Authorize(Roles = "Администраторы")]
+
+@using quiz.Ui.Components
+
+<LayoutView Layout="@typeof(AdminLayout)">
+    <PageTitle>@HeaderText</PageTitle>
+
+    <div class="card border-primary mt-2 mb-3">
+        @* Заголовок карточки *@
+        <div class="card-header h5">@HeaderText</div>
+        @* Тело карточки *@
+        <div class="card-body">
+            <div class="card-text">
+                <QuestionsOverview></QuestionsOverview>
+            </div>
+        </div>
+    </div>
+</LayoutView>

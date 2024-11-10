@@ -1,0 +1,29 @@
+﻿@* Судя по описанию https://docs.microsoft.com/en-us/aspnet/core/blazor/security/?view=aspnetcore-3.1, SignInManager and UserManager не поддерживаются в компонентах Razor, поэтому вызов SignInManager.SignOutAsync(); приводит к ошибке "System.InvalidOperationException: Headers are read-only, response has already started". Пришлось оставить эту отдельную .cshtml-страницу в которой эти классы поддерживаются. *@
+@page
+
+@using quiz.Ui.Security
+
+@attribute [IgnoreAntiforgeryToken]
+
+@inject SignInManager<IdentityUser> SignInManager
+@* Ссылка на сервис для управления аутентификацией и авторизацией. Внедряется с помощью DI. *@
+@inject ISecurityTokenManageDbDirect SecurityServiceInstance
+
+@functions {
+    public async Task<IActionResult> OnPost()
+    {
+        if (SignInManager.IsSignedIn(User))
+        {
+            await SignInManager.SignOutAsync();
+
+            // Если удалось получить имя залогиненного пользователя, то
+            if (User.Identity != null && User.Identity.Name != null)
+            {
+                // Вызов функции отзыва Токенов безопасности у пользователя с указанным именем.
+                await SecurityServiceInstance.RevokeUserSecurityTokensAsync(User.Identity.Name);
+            }
+        }
+
+        return Redirect("~/");
+    }
+}

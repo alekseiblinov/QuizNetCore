@@ -1,0 +1,22 @@
+﻿@* Данная страница является страницей по умолчанию при запуске проекта. *@
+@page "/"
+@page "/TopicChooseOverviewPage"
+
+@* На страницу могут входить незалогиненные пользователи потому что эта страница является начальной страницей приложения (страницей по умолчанию). Переадресация незалогиненных пользователей на страницу аутентификации осуществляется в коде метода OnInitializedAsync(). *@
+@* @attribute [Authorize] *@
+@attribute [AllowAnonymous]
+
+@using quiz.Ui.Components
+
+<PageTitle>@HeaderText</PageTitle>
+
+<div class="card border-primary mt-2 mb-3">
+    @* Заголовок карточки *@
+    <div class="card-header h5">@HeaderText</div>
+    @* Тело карточки *@
+    <div class="card-body">
+        <div class="card-text">
+            <TopicChooseOverview></TopicChooseOverview>
+        </div>
+    </div>
+</div>

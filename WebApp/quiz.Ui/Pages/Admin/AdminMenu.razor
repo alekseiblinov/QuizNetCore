@@ -1,0 +1,46 @@
+﻿<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">Администрирование</a>
+        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+        <AuthorizeView Roles="Администраторы">
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="/Identity/Account/UsersOverview">
+                    <span class="oi oi-people" aria-hidden="true"></span> Пользователи
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="TopicsOverviewPage">
+                    <span class="oi oi-bullhorn" aria-hidden="true"></span> Темы
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="QuestionsOverviewPage">
+                    <span class="oi oi-text" aria-hidden="true"></span> Вопросы
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="test">
+                    <span class="oi oi-heart" aria-hidden="true"></span> Тесты 
+                </NavLink>
+            </div>
+        </AuthorizeView>
+    </nav>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

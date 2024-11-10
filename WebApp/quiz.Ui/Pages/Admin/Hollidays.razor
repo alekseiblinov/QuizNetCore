@@ -1,0 +1,7 @@
+﻿@page "/hollidays"
+
+@attribute [Authorize(Roles = "Администраторы")]
+
+<LayoutView Layout="@typeof(AdminLayout)">
+    <p class="h3">Здесь должен быть список праздников</p>
+</LayoutView>

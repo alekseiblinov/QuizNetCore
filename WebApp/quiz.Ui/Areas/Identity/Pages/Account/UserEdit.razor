@@ -1,0 +1,106 @@
+﻿@page "/Identity/Account/useredit"
+@page "/Identity/Account/useredit/{ReturnUrlEncoded?}"
+@page "/Identity/Account/useredit/{Id:guid?}/{ReturnUrlEncoded?}"
+
+@attribute [Authorize(Roles = "Администраторы")]
+
+@using quiz.Ui.Components
+
+<PageTitle>@HeaderText</PageTitle>
+
+<div class="card border-primary mt-2 mb-3">
+    @* Заголовок карточки *@
+    <div class="card-header h5">@HeaderText</div>
+    @* Тело карточки *@
+    <div class="card-body">
+        <div class="card-text">
+            @* Если данные в контрол ещё не загружены полностью, то *@
+            @if (!IsLoaded)
+            {
+                // Отображение пользователю надписи "Загрузка".
+                <p class="align-middle"><em>Загрузка&hellip;</em></p>
+            }
+            else
+            {
+                @* Если нет данных для отображения, то *@
+                @if (CurrentEditContext == null || EditingObject == null)
+                {
+                    // Отображение пользователю надписи "Нет данных".
+                    <p class="align-middle"><em>Нет данных</em></p>
+                }
+                else
+                {
+                    <EditForm EditContext="@CurrentEditContext" OnValidSubmit="@HandleValidSubmitAsync" OnInvalidSubmit="@HandleInvalidSubmit">
+                        <DataAnnotationsValidator/>
+
+                        <div class="row">
+                            <div class="col-lg offset-lg-3 mb-3">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label for="login" class="col-form-label col-lg-2 ps-0">Имя пользователя (логин): </label>
+                            <InputText id="login" class="form-control col" @bind-Value="@EditingObject.Login"></InputText>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg offset-lg-3 mb-3">
+                                <ValidationMessage For="@(() => EditingObject.Login)"/>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label for="email" class="col-form-label col-lg-2 ps-0">Email: </label>
+                            <InputText id="email" class="form-control col" @bind-Value="@EditingObject.Email"></InputText>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg offset-lg-3 mb-3">
+                                <ValidationMessage For="@(() => EditingObject.Email)"/>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label for="password" class="col-form-label col-lg-2 ps-0">Пароль: </label>
+                            <InputText id="password" class="form-control col" type="password" @bind-Value="@EditingObject.Password"></InputText>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg offset-lg-3 mb-3">
+                                <ValidationMessage For="@(() => EditingObject.Password)"/>
+                            </div>
+                        </div>
+
+                        @* Формирование списка ролей пользователя с чекбоксами. *@
+                        @foreach (UserIsMemberOfRole currentRole in UserRoles.OrderBy(i => i.Role.Name))
+                        {
+                            <div hidden="true">@(checkBoxesCounter++)</div>
+
+                            <div class="row">
+                                <div class="col-auto">
+                                    <InputCheckbox id="@("userRole" + checkBoxesCounter)" @bind-Value="@currentRole.IsMember" class="form-check-input"></InputCheckbox>
+                                </div>
+                                <div for="userRole" class="col">
+                                    <label for="@("userRole" + checkBoxesCounter)" class="form-check-label">@currentRole.Role.Name</label>
+                                </div>
+                            </div>
+                        }
+
+                        @* Если зафиксированы ошибки, то *@
+                        @if (HasErrors)
+                        {
+                            // Вывод текста сообщения об ошибке.
+                            <div class="alert alert-danger mt-2">@ResultDescription</div>
+                        }
+
+                        @* Кнопки управления *@
+                        <div class="row">
+                            @* Рамка отступов вокруг кнопок управления *@
+                            <div class="col d-flex align-content-stretch mx-1 mt-2">
+                                <button type="submit" class="btn btn-outline-primary text-center m-1 ms-auto" style="width: 210px" disabled="@(!HasChanges)">Сохранить</button>
+                                <button type="button" class="btn btn-outline-primary text-center m-1" style="width: 210px" @onclick="@NavigateToReturnUrl">Отмена</button>
+                            </div>
+                        </div>
+                    </EditForm>
+                }
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+﻿@* Контрол, обеспечивающий ввод числа и обработку этого события по мере ввода текста (по event="oninput"), а не при потере фокуса.
+По материалам https://stackoverflow.com/questions/57234446/how-to-make-an-editform-input-that-binds-using-oninput-rather-than-onchange.
+Если использовать простой HTML-контрол <input type="number" ... />, то не будет работать штатная валидация. *@
+@typeparam TNumber
+@inherits InputNumber<TNumber>
+
+<input 
+    type="number"
+    step="any"
+    @attributes="AdditionalAttributes" 
+    class="@CssClass" 
+    value="@CurrentValue" 
+    @oninput="EventCallback.Factory.CreateBinder<string>(
+    this, value => CurrentValueAsString = value, CurrentValueAsString ?? '0'.ToString())" />
