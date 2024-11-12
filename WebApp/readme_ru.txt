@@ -71,3 +71,6 @@
   Пример: 
   // Получение перечня всех Ответов на вопросы.
   WebApiCallResult<IEnumerable<UserQuestionProgressModel>> webApiCallResultAnswers = UserQuestionProgressesDataServiceInstance.GetAllObjectsAsync(currentUserName).Result;
+
+	Публикация.
+Этот проект опубликован на GitHub https://github.com/alekseiblinov/QuizNetCore/.

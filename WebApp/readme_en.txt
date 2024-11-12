@@ -55,11 +55,11 @@ During the execution, the following topics were studied:
 	The folder structure of the project.
 
 ○ ..\quiz.Api\ - Web API controllers.
-o..\quiz.Logger\ - types and functions that ensure the operation of the logging subsystem.
+o ..\quiz.Logger\ - types and functions that ensure the operation of the logging subsystem.
 o ..\quiz.ModelBusiness\ - types representing data entities for their subsequent processing and presentation in the UI.
 o ..\quiz.ModelDb\ - types representing data entities used when interacting with the database.
 ○ ..\quiz.Shared\ - types and functions shared in Web API and UI methods. This assembly is referenced by the assemblies quiz.Api and quiz.Ui.
-o..\quiz.Ui\ - types and functions designed to form the user interface, display it, and enable the user to interact with it.
+o ..\quiz.Ui\ - types and functions designed to form the user interface, display it, and enable the user to interact with it.
 
 
 	Known issues.
@@ -67,7 +67,10 @@ o..\quiz.Ui\ - types and functions designed to form the user interface, display 
 ○ The number of possible answers to each question is fixed and is equal to four.
 ○ The Administrator does not have the ability to view a list of all tests and select one of them to view the results page. The results page can be opened by knowing the test ID using the URL ~/resultsoverviewpage/<test_id>.
 ○ The absence of the essence of the Quiz. There is no such table in the database, while the UserQuestionProgress test results table has a QuizId field. Such an entity could be useful for storing additional information about each test and for optimizing the database structure, for example, moving the UserId and LastAnswered fields from the UserQuestionProgress table to the Quiz table.
-○ Suboptimal queries. More data is often selected from database tables than is actually needed. 
+○ Suboptimal SQL queries. More data is often selected from database tables than is actually needed. 
   Example: 
   // Getting a list of all the answers to the questions.
   WebApiCallResult<IEnumerable<UserQuestionProgressModel>> webApiCallResultAnswers = UserQuestionProgressesDataServiceInstance.GetAllObjectsAsync(currentUserName).Result;
+
+	Publication.
+This project is published on GitHub https://github.com/alekseiblinov/QuizNetCore/.
