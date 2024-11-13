@@ -78,6 +78,7 @@ public partial class QuizOverview
 
     protected override async Task OnInitializedAsync()
     {
+        // *** Если значение render-mode, которое настраивается в файле _Host.cshtml, установлено в ServerPrerendered, то вызов этого метода OnInitializedAsync() при каждом обновлении страницы будет происходить дважды. Поэтому здесь и в методах OnInitialized/OnInitializedAsync на других страницах во избежание повторного длительного обращения к WebAPI нужно сохранять список QuestionsForQuiz в какой-либо статический объект и использовать проверку: если данные ещё были загружены ранее, то if (!QuestionsForQuiz.Any()).
         // Получение имени залогиненного пользователя.
         string? currentUserName = (await AuthenticationStateTask).User.Identity?.Name;
         // Заполнение перечня вопросов.
@@ -121,8 +122,8 @@ public partial class QuizOverview
                 foreach (UserQuestionProgressModel currentAnswer in shuffledCurrentUserAnswers.Where(i => i.NextDue <= DateTime.Now).DistinctBy(i => i.QuestionId))
                 {
                     // Получение данных вопроса для рассматриваемого ответа. Также учитывается то, что вопрос должен относиться к определённой теме.
-                    QuestionModel? dueQuestion = webApiCallResultQuestions.Data.Where(i => i.TopicId == TopicId).FirstOrDefault(i => i.Id == currentAnswer.QuestionId );
-                    
+                    QuestionModel? dueQuestion = webApiCallResultQuestions.Data.Where(i => i.TopicId == TopicId).FirstOrDefault(i => i.Id == currentAnswer.QuestionId);
+
                     // Если удалось получить данные вопроса для рассматриваемого ответа, то
                     if (dueQuestion != null)
                     {

@@ -5,6 +5,6 @@
     Layout = "_Layout";
 }
 
-@* !!! Для исключения повторного вызова событий OnInitialized и OnPrerendered и удобства отладки при первом запуске приложения потребовалось установить значение "Server" вместо "ServerPrerendered". При размещении на прод. нужно вернуть. *@
+@* *** Для исключения повторного вызова событий OnInitialized и удобства отладки при первом запуске приложения потребовалось установить значение "Server" вместо "ServerPrerendered". *@
 @*<component type="typeof(App)" render-mode="ServerPrerendered" />*@
 <component type="typeof(App)" render-mode="Server" />
