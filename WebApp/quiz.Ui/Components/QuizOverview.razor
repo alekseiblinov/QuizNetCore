@@ -25,7 +25,7 @@ else
         @* Вывод списка вопросов. *@
         @foreach (QuestionModel currentQuestion in QuestionsForQuiz.OrderBy(i => i.CreatedAt))
         {
-            <fieldset id="Question_@currentQuestion.Id" class="row my-3">
+            <fieldset id="Question_@currentQuestion.Id" class="row my-3" @key=@currentQuestion.Id>
                 <div class="col">
                     @* Вывод текста вопроса *@
                     <label class="form-check-label">@currentQuestion.QuestionText</label>

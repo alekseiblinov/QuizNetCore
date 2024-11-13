@@ -28,7 +28,7 @@ else
             <InputRadioGroup @bind-Value="SelectedTopicId">
                 @foreach (TopicModel currentTopic in TopicsList.OrderBy(i => i.OrderNumber))
                 {
-                    <div class="row">
+                    <div class="row" @key=@currentTopic.Id>
                         <label class="col-auto">
                             <InputRadio Value="@currentTopic.Id" class="form-check-input" />
                             @currentTopic.Name
