@@ -9,6 +9,8 @@
   <ItemGroup>
     <Compile Remove="Areas\Identity\Pages\Account\Login.cs" />
     <Compile Remove="Areas\Identity\Pages\Account\LogOut.cs" />
+    <Compile Remove="Components\DialogOk.cs" />
+    <Compile Remove="Components\HorizontalAlignmentSelect.cs" />
     <Compile Remove="Components\ObjectVisitsOverview.cs" />
     <Compile Remove="ISecurityLogic.cs" />
     <Compile Remove="Pages\Admin\UsersOverview.cs" />
@@ -21,6 +23,10 @@
   <ItemGroup>
     <Content Remove="Areas\Identity\Pages\Account\Login.razor" />
     <Content Remove="Areas\Identity\Pages\Account\LogOut.razor" />
+    <Content Remove="Components\CustomInputNumber.razor" />
+    <Content Remove="Components\CustomInputText.razor" />
+    <Content Remove="Components\DialogOk.razor" />
+    <Content Remove="Components\HorizontalAlignmentSelect.razor" />
     <Content Remove="Components\ObjectVisitsOverview.razor" />
     <Content Remove="Pages\Admin\UsersOverview.razor" />
     <Content Remove="Pages\ObjectVisitsOverviewPage.razor" />

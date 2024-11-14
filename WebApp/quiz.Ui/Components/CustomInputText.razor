@@ -1,6 +1,0 @@
-﻿@* Контрол, обеспечивающий ввод текста и обработку этого события по мере ввода текста (по event="oninput"), а не при потере фокуса.
-По материалам https://stackoverflow.com/questions/57234446/how-to-make-an-editform-input-that-binds-using-oninput-rather-than-onchange.
-Если использовать простой HTML-контрол <input ... />, то не будет работать штатная валидация.
-Для чисел и дат нужно создавать подобные отдельные custom-контролы с обработкой соотвествующих типов данных. *@
-@inherits Microsoft.AspNetCore.Components.Forms.InputText
-<input @attributes="@AdditionalAttributes" class="@CssClass" @bind="@CurrentValueAsString" @bind:event="oninput" />
