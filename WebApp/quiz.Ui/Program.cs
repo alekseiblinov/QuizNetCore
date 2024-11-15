@@ -49,7 +49,10 @@ builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuth
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-
+builder.Services.AddDevExpressBlazor(options => {
+                                         options.BootstrapVersion = DevExpress.Blazor.BootstrapVersion.v5;
+                                         options.SizeMode = DevExpress.Blazor.SizeMode.Medium;
+                                     });
 // Подключение объекта класса с данными и функциями для аутентификации и авторизации, в том числе контейнера хранения состояний подсистемы аутентификации и авторизации.
 builder.Services.AddTransient<ISecurityTokenManageDbDirect, SecurityServiceDbDirect>();
 

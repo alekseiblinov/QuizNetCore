@@ -5,7 +5,11 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
+  
+  <ItemGroup>
+    <PackageReference Include="DevExpress.Blazor" Version="24.1.7" />
+  </ItemGroup>
+  
   <ItemGroup>
     <Compile Remove="Areas\Identity\Pages\Account\Login.cs" />
     <Compile Remove="Areas\Identity\Pages\Account\LogOut.cs" />
