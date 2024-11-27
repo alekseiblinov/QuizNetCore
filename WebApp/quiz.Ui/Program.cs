@@ -81,6 +81,8 @@ builder.Services.AddTransient<IEmailSender, SendEmailLogic>();
 
 //builder.Services.AddScoped(i => new HttpClient {BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)});
 ////builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+builder.WebHost.UseWebRoot("wwwroot");
+builder.WebHost.UseStaticWebAssets();
 
 var app = builder.Build();
 
