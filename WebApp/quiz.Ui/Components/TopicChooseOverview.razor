@@ -50,8 +50,7 @@ else
             <div class="row">
                 @* Рамка отступов вокруг кнопок управления *@
                 <div class="col d-flex align-content-stretch mx-1 mt-2">
-                    <button type="button" @onclick="OnSubmitClick" class="btn btn-primary text-center m-1 ms-auto" style="width: 210px" disabled="@(!HasChanges)">Продолжить</button>
-                    <DxButton Click="OnSubmitClick" style="width: 210px" disabled="@(!HasChanges)" Context="buttonCtx">Click me</DxButton>
+                    <DxButton Click="OnSubmitClick" SubmitFormOnClick="true" RenderStyle="ButtonRenderStyle.Primary" RenderStyleMode="ButtonRenderStyleMode.Contained" class="m-1 ms-auto" style="width: 210px" disabled="@(!HasChanges)" Context="stubContext">Продолжить</DxButton>
                 </div>
             </div>
         </EditForm>

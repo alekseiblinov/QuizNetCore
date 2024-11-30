@@ -58,13 +58,13 @@ else
     <div class="row">
         @* Рамка отступов вокруг кнопок управления *@
         <div class="col-lg d-lg-flex align-content-stretch mx-1 mt-1">
-            <button type="button" @onclick="TopicAdd" class="btn btn-outline-primary text-center col-auto m-1">Добавить</button>
+            <DxButton Click="TopicAdd" RenderStyle="ButtonRenderStyle.Primary" RenderStyleMode="ButtonRenderStyleMode.Outline" class="m-1 col-auto">Добавить</DxButton>
             @* Отображать дополнительные кнопки управления выбранным элементом. *@
-            <button type="button" @onclick="() => TopicEdit(SelectedElement?.Id ?? Guid.Empty)" class="btn btn-outline-primary text-center m-1" disabled="@(SelectedElement == null)">Редактировать</button>
-            <button type="button" @onclick="ObjectDeleteAsync" class="btn btn-outline-primary text-center m-1" disabled="@(SelectedElement == null)">Удалить</button>
+            <DxButton Click="() => TopicEdit(SelectedElement?.Id ?? Guid.Empty)" RenderStyle="ButtonRenderStyle.Primary" RenderStyleMode="ButtonRenderStyleMode.Outline" class="m-1" disabled="@(SelectedElement == null)">Редактировать</DxButton>
+            <DxButton Click="ObjectDeleteAsync" RenderStyle="ButtonRenderStyle.Danger" RenderStyleMode="ButtonRenderStyleMode.Outline" class="m-1" disabled="@(SelectedElement == null)">Удалить</DxButton>
             @* Отображение кнопок "Вверх" и "Вниз" *@
-            <button type="button" @onclick="RecordMoveUp" class="btn ms-auto btn-outline-primary text-center m-1" disabled="@(IsUpButtonDisabled || SelectedElement == null)">Вверх</button>
-            <button type="button" @onclick="RecordMoveDown" class="btn btn-outline-primary text-center m-1" disabled="@(IsDownButtonDisabled || SelectedElement == null)">Вниз</button>
+            <DxButton Click="RecordMoveUp" RenderStyle="ButtonRenderStyle.Primary" RenderStyleMode="ButtonRenderStyleMode.Outline" class="m-1 ms-auto" disabled="@(IsUpButtonDisabled || SelectedElement == null)" style="width: 75px">Вверх</DxButton>
+            <DxButton Click="RecordMoveDown" RenderStyle="ButtonRenderStyle.Primary" RenderStyleMode="ButtonRenderStyleMode.Outline" class="m-1" disabled="@(IsUpButtonDisabled || SelectedElement == null)" style="width: 75px">Вниз</DxButton>
         </div>
     </div>
 

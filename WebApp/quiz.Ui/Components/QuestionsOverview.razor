@@ -68,10 +68,10 @@ else
     <div class="row">
         @* Рамка отступов вокруг кнопок управления *@
         <div class="col-lg d-lg-flex align-content-stretch mx-1 mt-1">
-            <button type="button" @onclick="QuestionAdd" class="btn btn-outline-primary text-center col-auto m-1">Добавить</button>
+            <DxButton Click="QuestionAdd" RenderStyle="ButtonRenderStyle.Primary" RenderStyleMode="ButtonRenderStyleMode.Outline" class="m-1 col-auto">Добавить</DxButton>
             @* Отображать дополнительные кнопки управления выбранным элементом. *@
-            <button type="button" @onclick="() => QuestionEdit(SelectedElement?.Id ?? Guid.Empty)" class="btn btn-outline-primary text-center m-1" disabled="@(SelectedElement == null)">Редактировать</button>
-            <button type="button" @onclick="ObjectDeleteAsync" class="btn btn-outline-primary text-center m-1" disabled="@(SelectedElement == null)">Удалить</button>
+            <DxButton Click="() => QuestionEdit(SelectedElement?.Id ?? Guid.Empty)" RenderStyle="ButtonRenderStyle.Primary" RenderStyleMode="ButtonRenderStyleMode.Outline" class="m-1" disabled="@(SelectedElement == null)">Редактировать</DxButton>
+            <DxButton Click="ObjectDeleteAsync" RenderStyle="ButtonRenderStyle.Danger" RenderStyleMode="ButtonRenderStyleMode.Outline" class="m-1" disabled="@(SelectedElement == null)">Удалить</DxButton>
         </div>
     </div>
 

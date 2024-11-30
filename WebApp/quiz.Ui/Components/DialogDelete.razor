@@ -6,9 +6,9 @@
                 @* Заголовок модального окна *@
                 <div class="modal-header">
                     <h5 type="button" class="modal-title" id="titleLabel">Удалить выбранную запись?</h5>
-                    <button type="button" class="close" @onclick="@NoAsync" data-dismiss="modal" aria-label="Close">
+                    <DxButton Click="NoAsync" RenderStyle="ButtonRenderStyle.Primary" RenderStyleMode="ButtonRenderStyleMode.Outline" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
-                    </button>
+                    </DxButton>
                 </div>
                 @* Тело модального окна *@
                 <div class="modal-body">
@@ -23,8 +23,8 @@
                     <div class="row">
                         @* Рамка отступов вокруг кнопок управления *@
                         <div class="col d-flex mx-1 mt-2">
-                            <button type="button" class="btn btn-outline-primary text-center m-1 ms-auto" style="width: 75px" @onclick="@YesAsync">Да</button>
-                            <button type="button" class="btn btn-outline-primary text-center m-1" style="width: 75px" @onclick="@NoAsync">Нет</button>
+                            <DxButton Click="YesAsync" RenderStyle="ButtonRenderStyle.Danger" RenderStyleMode="ButtonRenderStyleMode.Outline" class="m-1 ms-auto" style="width: 75px">Да</DxButton>
+                            <DxButton Click="NoAsync" SubmitFormOnClick="true" RenderStyle="ButtonRenderStyle.Primary" RenderStyleMode="ButtonRenderStyleMode.Contained" class="m-1" style=" width: 75px">Нет</DxButton>
                         </div>
                     </div>
                 </div>

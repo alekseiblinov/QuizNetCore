@@ -30,9 +30,9 @@
         </NotAuthorized>
     </AuthorizeView>
     <div class="row">
-        <button type="button" @onclick="GetSecurityTokenAsync" class="btn btn-outline-primary text-center col-auto m-1">Сгенерировать токен (вход)</button>
+        <DxButton Click="GetSecurityTokenAsync" RenderStyle="ButtonRenderStyle.Success" RenderStyleMode="ButtonRenderStyleMode.Outline" class="m-1 col-auto">Сгенерировать токен (вход)</DxButton>
     </div>
     <div class="row">
-        <button type="button" @onclick="RevokeSecurityTokenAsync" class="btn btn-outline-primary text-center col-auto m-1">Отозвать токен (выход)</button>
+        <DxButton Click="RevokeSecurityTokenAsync" RenderStyle="ButtonRenderStyle.Danger" RenderStyleMode="ButtonRenderStyleMode.Outline" class="m-1 col-auto">Отозвать токен (выход)</DxButton>
     </div>
 </LayoutView>

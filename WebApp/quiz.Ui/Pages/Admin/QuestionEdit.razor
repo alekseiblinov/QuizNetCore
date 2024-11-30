@@ -131,8 +131,8 @@
                             <div class="row">
                                 @* Рамка отступов вокруг кнопок управления *@
                                 <div class="col d-flex align-content-stretch mx-1 mt-2">
-                                    <button type="submit" class="btn btn-outline-primary text-center m-1 ms-auto" style="width: 210px" disabled="@(!HasChanges)">Сохранить</button>
-                                    <button type="button" class="btn btn-outline-primary text-center m-1" style="width: 210px" @onclick="@NavigateToReturnUrl">Отмена</button>
+                                    <DxButton SubmitFormOnClick="true" RenderStyle="ButtonRenderStyle.Primary" RenderStyleMode="ButtonRenderStyleMode.Outline" class="m-1 ms-auto" style="width: 210px" disabled="@(!HasChanges)" Context="stubContext">Сохранить</DxButton>
+                                    <DxButton Click="NavigateToReturnUrl" RenderStyle="ButtonRenderStyle.Primary" RenderStyleMode="ButtonRenderStyleMode.Outline" class="m-1" style="width: 210px" Context="stubContext">Отмена</DxButton>
                                 </div>
                             </div>
                         </EditForm>
