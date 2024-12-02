@@ -81,15 +81,15 @@ else
             // Вывод текста сообщения об ошибке.
             <div class="alert alert-danger mt-2">@ResultDescription</div>
         }
-
-        @* Кнопки управления *@
-        <div class="row">
-            @* Рамка отступов вокруг кнопок управления *@
-            <div class="col d-flex align-content-stretch mx-1 mt-2">
-                <DxButton Click="NavigateToTopicChoosePage" RenderStyle="ButtonRenderStyle.Primary" RenderStyleMode="ButtonRenderStyleMode.Outline" class="m-1 ms-auto" style="width: 210px">К выбору темы</DxButton>
-                <DxButton Click="OnSubmitClick" RenderStyle="ButtonRenderStyle.Primary" RenderStyleMode="ButtonRenderStyleMode.Contained" class="m-1" style="width: 210px" disabled="@(!HasChanges)">Отправить</DxButton>
-            </div>
-        </div>
     }
+
+    @* Кнопки управления *@
+    <div class="row">
+        @* Рамка отступов вокруг кнопок управления *@
+        <div class="col d-flex align-content-stretch mx-1 mt-2">
+            <DxButton Click="NavigateToTopicChoosePage" RenderStyle="ButtonRenderStyle.Primary" RenderStyleMode="ButtonRenderStyleMode.Outline" class="m-1 ms-auto" style="width: 210px">К выбору темы</DxButton>
+            <DxButton Click="OnSubmitClick" RenderStyle="ButtonRenderStyle.Primary" RenderStyleMode="ButtonRenderStyleMode.Contained" class="m-1" style="width: 210px" disabled="@(!HasChanges)">Отправить</DxButton>
+        </div>
+    </div>
 }
 
