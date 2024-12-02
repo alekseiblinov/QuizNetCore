@@ -44,7 +44,7 @@
 
                         <div class="row">
                             <label for="login" class="col-form-label col-lg-2 ps-0">Имя пользователя (логин): </label>
-                            <InputText id="login" class="form-control col" @bind-Value="@EditingObject.Login"></InputText>
+                            <DxTextBox id="login" CssClass="form-control col" @bind-Text="@EditingObject.Login"></DxTextBox>
                         </div>
                         <div class="row">
                             <div class="col-lg offset-lg-3 mb-3">
@@ -54,7 +54,7 @@
 
                         <div class="row">
                             <label for="email" class="col-form-label col-lg-2 ps-0">Email: </label>
-                            <InputText id="email" class="form-control col" @bind-Value="@EditingObject.Email"></InputText>
+                            <DxTextBox id="email" CssClass="form-control col" @bind-Text="@EditingObject.Email"></DxTextBox>
                         </div>
                         <div class="row">
                             <div class="col-lg offset-lg-3 mb-3">
@@ -64,7 +64,7 @@
 
                         <div class="row">
                             <label for="password" class="col-form-label col-lg-2 ps-0">Пароль: </label>
-                            <InputText id="password" class="form-control col" type="password" @bind-Value="@EditingObject.Password"></InputText>
+                            <DxTextBox id="password" CssClass="form-control col" @bind-Text="@EditingObject.Password" Password="true"></DxTextBox>
                         </div>
                         <div class="row">
                             <div class="col-lg offset-lg-3 mb-3">
