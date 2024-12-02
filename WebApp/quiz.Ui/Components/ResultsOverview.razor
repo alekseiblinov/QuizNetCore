@@ -32,6 +32,9 @@ else
             <div class="lead">
                 Правильных ответов @CorrectAnswers.Count из @(IncorrectAnswers.Count + CorrectAnswers.Count).
             </div>
+            <div class="my-2">
+                <DxProgressBar MinValue=0 MaxValue=@(IncorrectAnswers.Count + CorrectAnswers.Count) Value=@CorrectAnswers.Count LabelPosition="ProgressBarLabelPosition.Bottom" Thickness="5px"/>
+            </div>
 
             <div class="h6 text-success mt-4 mb-2">
                 Правильные ответы
@@ -123,7 +126,9 @@ else
         <div class="row">
             @* Рамка отступов вокруг кнопок управления *@
             <div class="col d-flex align-content-stretch mx-1 mt-2">
-                <DxButton Click="NavigateToTopicChoosePage" RenderStyle="ButtonRenderStyle.Primary" RenderStyleMode="ButtonRenderStyleMode.Outline" class="m-1 ms-auto" style="width: 210px">К выбору темы</DxButton>
+                <DxButton Click="NavigateToTopicChoosePage" RenderStyle="ButtonRenderStyle.Primary" RenderStyleMode="ButtonRenderStyleMode.Outline" class="m-1 ms-auto" style="width: 210px">
+                    К выбору темы
+                </DxButton>
             </div>
         </div>
     }
