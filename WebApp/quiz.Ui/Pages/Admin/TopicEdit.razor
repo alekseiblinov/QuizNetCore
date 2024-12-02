@@ -18,8 +18,14 @@
                 @* Если данные в контрол ещё не загружены полностью, то *@
                 @if (!IsLoaded)
                 {
-                    // Отображение пользователю надписи "Загрузка".
-                    <p class="align-middle"><em>Загрузка&hellip;</em></p>
+                    @* Отображение пользователю надписи "Загрузка". *@
+                    <div style="height: 100px;">
+                        <DxLoadingPanel Visible="true"
+                                        Text="Загрузка..."
+                                        ApplyBackgroundShading="false"
+                                        IndicatorAnimationType="WaitIndicatorAnimationType.Spin">
+                        </DxLoadingPanel>
+                    </div>
                 }
                 else
                 {
