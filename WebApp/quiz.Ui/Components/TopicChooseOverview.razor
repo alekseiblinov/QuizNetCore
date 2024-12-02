@@ -9,13 +9,11 @@
 @if (!IsLoaded)
 {
     @* Отображение пользователю надписи "Загрузка". *@
-    <div style="height: 100px;">
-        <DxLoadingPanel Visible="true"
-                        Text="Загрузка..."
-                        ApplyBackgroundShading="false"
-                        IndicatorAnimationType="WaitIndicatorAnimationType.Spin">
-        </DxLoadingPanel>
-    </div>
+    <DxLoadingPanel Visible="true"
+                    Text="Загрузка..."
+                    ApplyBackgroundShading="false"
+                    IndicatorAnimationType="WaitIndicatorAnimationType.Spin">
+    </DxLoadingPanel>
 }
 else
 {
