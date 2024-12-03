@@ -71,7 +71,7 @@ else
             <DxButton Click="ObjectDeleteAsync" RenderStyle="ButtonRenderStyle.Danger" RenderStyleMode="ButtonRenderStyleMode.Outline" class="m-1" disabled="@(SelectedElement == null)">Удалить</DxButton>
             @* Отображение кнопок "Вверх" и "Вниз" *@
             <DxButton Click="RecordMoveUp" RenderStyle="ButtonRenderStyle.Primary" RenderStyleMode="ButtonRenderStyleMode.Outline" class="m-1 ms-auto" disabled="@(IsUpButtonDisabled || SelectedElement == null)" style="width: 75px">Вверх</DxButton>
-            <DxButton Click="RecordMoveDown" RenderStyle="ButtonRenderStyle.Primary" RenderStyleMode="ButtonRenderStyleMode.Outline" class="m-1" disabled="@(IsUpButtonDisabled || SelectedElement == null)" style="width: 75px">Вниз</DxButton>
+            <DxButton Click="RecordMoveDown" RenderStyle="ButtonRenderStyle.Primary" RenderStyleMode="ButtonRenderStyleMode.Outline" class="m-1" disabled="@(IsDownButtonDisabled || SelectedElement == null)" style="width: 75px">Вниз</DxButton>
         </div>
     </div>
 
