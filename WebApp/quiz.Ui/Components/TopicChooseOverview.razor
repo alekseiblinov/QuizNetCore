@@ -29,19 +29,18 @@ else
             <DataAnnotationsValidator />
 
             @* Вывод списка Тем. *@
-            <InputRadioGroup @bind-Value="SelectedTopicId">
+            <div role="radiogroup">
                 @foreach (TopicModel currentTopic in TopicsList.OrderBy(i => i.OrderNumber))
                 {
                     <div class="row" @key=@currentTopic.Id>
-                        <label class="col-auto">
-                            <InputRadio Value="@currentTopic.Id" class="form-check-input" />
+                        <DxRadio GroupName="topics-radio-group"
+                                 @bind-GroupValue="@SelectedTopicId"
+                                 Value="@currentTopic.Id">
                             @currentTopic.Name
-                        </label>
-                        <div class="col">
-                        </div>
+                        </DxRadio>
                     </div>
                 }
-            </InputRadioGroup>
+            </div>
 
             @* Если зафиксированы ошибки, то *@
             @if (HasErrors)
