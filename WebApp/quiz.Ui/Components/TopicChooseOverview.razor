@@ -45,14 +45,14 @@ else
                 // Вывод текста сообщения об ошибке.
                 <div class="alert alert-danger mt-2">@ResultDescription</div>
             }
-
-            @* Кнопки управления *@
-            <div class="row">
-                @* Рамка отступов вокруг кнопок управления *@
-                <div class="col d-flex align-content-stretch mx-1 mt-2">
-                    <button type="button" @onclick="OnSubmitClick" class="btn btn-primary text-center m-1 ms-auto" style="width: 210px" disabled="@(!HasChanges)">Продолжить</button>
-                </div>
-            </div>
         </EditForm>
     }
+
+    @* Кнопки управления *@
+    <div class="row">
+        @* Рамка отступов вокруг кнопок управления *@
+        <div class="col d-flex align-content-stretch mx-1 mt-2">
+            <button type="button" @onclick="OnSubmitClick" class="btn btn-primary text-center m-1 ms-auto" style="width: 210px" disabled="@(!HasChanges)">Продолжить</button>
+        </div>
+    </div>
 }
