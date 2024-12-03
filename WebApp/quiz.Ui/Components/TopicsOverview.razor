@@ -15,52 +15,88 @@
 else
 {
     @*<div style="height:250px; overflow-y:scroll">*@
-        @* Формирование таблицы со списком объектов. *@
-        <table class="table table-sm table-responsive-lg table-bordered text-center">
-            <thead>
-            <tr>
-                <th class="align-middle">Название</th>
-                <th class="align-middle">Номер</th>
-            </tr>
-            </thead>
-            <tbody>
-                @* Если при взаимодействии с WebAPI были произошли ошибки, то *@
-                @if (HasWebApiErrors)
-                {
-                    @* Информация о проблемах взаимодействия с WebAPI *@
-                    <div class="alert alert-danger mt-2">@WebApiErrorsDescription</div>
-                }
-                else
-                {            
-                    @* Если нет данных для отображения, то *@
-                    @if (Objects == null || !Objects.Any())
-                    {
-                        // Отображение пользователю надписи "Нет данных".
-                        <p class="align-middle"><em>Нет данных</em></p>
-                    }
-                    else
-                    {
-                        <Virtualize Context="currentObject" Items="@Objects.ToList()" TItem="TopicModel">
-                            <ItemContent>
-                                <tr class="@GetRowHtmlClass(currentObject.Id)" @onclick="() => SelectRowAsync(currentObject.Id)">
-                                    <td class="align-middle">@currentObject.Name</td>
-                                    <td class="align-middle">@currentObject.OrderNumber</td>
-                                </tr>
-                            </ItemContent>
-                            <Placeholder>
-                                @* Отображение пользователю надписи "Загрузка". *@
-                                <DxLoadingPanel Visible="true"
-                                                Text="Загрузка..."
-                                                ApplyBackgroundShading="false"
-                                                IndicatorAnimationType="WaitIndicatorAnimationType.Spin">
-                                </DxLoadingPanel>
-                            </Placeholder>
-                        </Virtualize>
-                    }
-                }
-            </tbody>
-        </table>
+    @* Формирование таблицы со списком объектов. *@
+    <table class="table table-sm table-responsive-lg table-bordered text-center">
+        <thead>
+        <tr>
+            <th class="align-middle">Название</th>
+            <th class="align-middle">Номер</th>
+        </tr>
+        </thead>
+        <tbody>
+        @* Если при взаимодействии с WebAPI были произошли ошибки, то *@
+        @if (HasWebApiErrors)
+        {
+            @* Информация о проблемах взаимодействия с WebAPI *@
+            <div class="alert alert-danger mt-2">@WebApiErrorsDescription</div>
+        }
+        else
+        {            
+            @* Если нет данных для отображения, то *@
+            @if (Objects == null || !Objects.Any())
+            {
+                // Отображение пользователю надписи "Нет данных".
+                <p class="align-middle"><em>Нет данных</em></p>
+            }
+            else
+            {
+                <Virtualize Context="currentObject" Items="@Objects.ToList()" TItem="TopicModel">
+                    <ItemContent>
+                        <tr class="@GetRowHtmlClass(currentObject.Id)" @onclick="() => SelectRowAsync(currentObject.Id)">
+                            <td class="align-middle">@currentObject.Name</td>
+                            <td class="align-middle">@currentObject.OrderNumber</td>
+                        </tr>
+                    </ItemContent>
+                    <Placeholder>
+                        @* Отображение пользователю надписи "Загрузка". *@
+                        <DxLoadingPanel Visible="true"
+                                        Text="Загрузка..."
+                                        ApplyBackgroundShading="false"
+                                        IndicatorAnimationType="WaitIndicatorAnimationType.Spin">
+                        </DxLoadingPanel>
+                    </Placeholder>
+                </Virtualize>
+            }
+        }
+        </tbody>
+    </table>
+
+    @* Если нет данных для отображения, то *@
+    @if (Objects == null || !Objects.Any())
+    {
+        // Отображение пользователю надписи "Нет данных".
+        <p class="align-middle"><em>Нет данных</em></p>
+    }
+    else
+    {
+        <DxGrid 
+            Data="@Objects.ToList()" 
+            EditMode="GridEditMode.EditRow" 
+            SelectionMode="GridSelectionMode.Single"
+            AllowSelectRowByClick="true"
+            >
+            <Columns>
+                <DxGridCommandColumn 
+                    Width="150px"
+                    />
+                <DxGridDataColumn 
+                    FieldName="Name" 
+                    Caption="Topic name" 
+                    TextAlignment="GridTextAlignment.Center" 
+                    CaptionAlignment="GridTextAlignment.Center" 
+                    />
+                <DxGridDataColumn 
+                    FieldName="OrderNumber" 
+                    Caption="Order number"
+                    TextAlignment="GridTextAlignment.Center"
+                    CaptionAlignment="GridTextAlignment.Center" 
+                    />
+            </Columns>
+        </DxGrid>
+    }
     @*</div>*@
+
+
 
     <div class="row">
         @* Рамка отступов вокруг кнопок управления *@
