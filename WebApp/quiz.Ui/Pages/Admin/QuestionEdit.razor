@@ -4,7 +4,6 @@
 
 @attribute [Authorize(Roles = "Администраторы")]
 
-@using quiz.Ui.Components
 @using quiz.ModelBusiness
 
 <LayoutView Layout="@typeof(AdminLayout)">
@@ -39,29 +38,32 @@
                         <EditForm EditContext="@CurrentEditContext" OnValidSubmit="@HandleValidSubmitAsync" OnInvalidSubmit="@HandleInvalidSubmit">
                             <DataAnnotationsValidator/>
 
+                            
                             <div class="row">
-                                <div class="col-lg offset-lg-3 mb-3">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <label for="topic" class="col-form-label col-auto ps-0">Статус проекта: </label>
-                                <div class="col-1">
-                                </div>
+                                <label for="topic" class="col-form-label col-lg-2 ps-0">Тема: </label>
 
                                 @* Если список Тем получен с сервера, то *@
                                 @if (Topics.Any())
                                 {
-                                    <InputSelect id="topic" class="form-control col" @bind-Value="EditingObject.TopicId">
-                                        @foreach (TopicModel currentTopic in Topics)
-                                        {
-                                            <option value="@(currentTopic.Id.ToString())">@currentTopic.Name</option>
-                                        }
-                                    </InputSelect>
-                                    <div class="col-form-label col-lg-auto mx-lg-2">
-                                        <ValidationMessage For="@(() => EditingObject.TopicId)" />
-                                    </div>
+                                    <DxComboBox id="topic"
+                                        Data="@Topics"
+                                        @bind-Value="@EditingObject.TopicId"
+                                        @bind-Text="@EditingObject.TopicName"
+                                        ValueFieldName="@nameof(TopicModel.Id)"
+                                        KeyFieldName="@nameof(TopicModel.Id)"
+                                        TextFieldName="@nameof(TopicModel.Name)"
+                                        ValidateBy="ComboBoxValidateBy.Value"
+                                        CssClass="form-control col"
+                                        AllowUserInput="false"
+                                        NullText="Select a topic..."
+                                        ListRenderMode="ListRenderMode.Entire">
+                                    </DxComboBox>
                                 }
+                            </div>
+                            <div class="row">
+                                <div class="col-lg offset-lg-3 mb-3">
+                                    <ValidationMessage For="@(() => EditingObject.TopicId)" />
+                                </div>
                             </div>
 
                             <div class="row">
