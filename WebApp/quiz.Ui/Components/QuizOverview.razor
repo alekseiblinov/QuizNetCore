@@ -29,45 +29,46 @@ else
         @* Вывод списка вопросов. *@
         @foreach (QuestionModel currentQuestion in QuestionsForQuiz.OrderBy(i => i.CreatedAt))
         {
-            <fieldset id="Question_@currentQuestion.Id" class="row my-3" @key=@currentQuestion.Id>
+            <fieldset id=@($"Question_{currentQuestion.Id}") class="row my-3" @key=@currentQuestion.Id>
                 <div class="col">
                     @* Вывод текста вопроса *@
                     <label class="form-check-label">@currentQuestion.QuestionText</label>
 
-                    @* Вывод списка ответов на вопрос. 
-                    По материалам https://stackoverflow.com/questions/64365100/how-to-bind-radio-buttons-in-blazor
-                    Здесь используются нативные для HTML элементы управления input type="radio" вместо элементов управления InputRadio, нативных для Blazor. Это позволяет отказаться от использования EditForm на странице но порождает невозможность получения в коде информации о выбранном элементе. Пример использования элементов управления InputRadio можно увидеть на странице TopicChooseOverview.razor. *@
-                    <div class="row">
-                        <label class="col-auto">
-                            <input type="radio" checked="@(currentQuestion.OptionIsSelected01)" class="form-check-input" @onchange="@(() => { currentQuestion.OptionIsSelected01 = true;  HasChanges=true; })" name="Question_@currentQuestion.Id" />
+                    @* Вывод списка ответов на вопрос. *@
+                    <div class="row" @key=@($"{currentQuestion.Id}_option01")>
+                        <DxRadio 
+                                GroupName=@($"Question_{currentQuestion.Id}")
+                                Value="@currentQuestion.Option01"
+                                GroupValueChanged="@((string newValue) => { currentQuestion.OptionIsSelected01 = newValue == currentQuestion.Option01; HasChanges=true;} )">
                             @currentQuestion.Option01
-                        </label>
-                        <div class="col">
-                        </div>
+                        </DxRadio>
                     </div>
-                    <div class="row">
-                        <label class="col-auto">
-                            <input type="radio" checked="@(currentQuestion.OptionIsSelected02)" class="form-check-input" @onchange="@(() => { currentQuestion.OptionIsSelected02 = true;  HasChanges=true; })" name="Question_@currentQuestion.Id" />
+                    
+                    <div class="row" @key=@($"{currentQuestion.Id}_option02")>
+                        <DxRadio 
+                            GroupName=@($"Question_{currentQuestion.Id}")
+                            Value="@currentQuestion.Option02"
+                            GroupValueChanged="@((string newValue) => { currentQuestion.OptionIsSelected02 = newValue == currentQuestion.Option02; HasChanges=true;} )">
                             @currentQuestion.Option02
-                        </label>
-                        <div class="col">
-                        </div>
+                        </DxRadio>
                     </div>
-                    <div class="row">
-                        <label class="col-auto">
-                            <input type="radio" checked="@(currentQuestion.OptionIsSelected03)" class="form-check-input" @onchange="@(() => { currentQuestion.OptionIsSelected03 = true;  HasChanges=true; })" name="Question_@currentQuestion.Id" />
+                    
+                    <div class="row" @key=@($"{currentQuestion.Id}_option03")>
+                        <DxRadio 
+                            GroupName=@($"Question_{currentQuestion.Id}")
+                            Value="@currentQuestion.Option03"
+                            GroupValueChanged="@((string newValue) => { currentQuestion.OptionIsSelected03 = newValue == currentQuestion.Option03; HasChanges=true;} )">
                             @currentQuestion.Option03
-                        </label>
-                        <div class="col">
-                        </div>
+                        </DxRadio>
                     </div>
-                    <div class="row">
-                        <label class="col-auto">
-                            <input type="radio" checked="@(currentQuestion.OptionIsSelected04)" class="form-check-input" @onchange="@(() => { currentQuestion.OptionIsSelected04 = true;  HasChanges=true; })" name="Question_@currentQuestion.Id" />
+                    
+                    <div class="row" @key=@($"{currentQuestion.Id}_option04")>
+                        <DxRadio 
+                            GroupName=@($"Question_{currentQuestion.Id}")
+                            Value="@currentQuestion.Option04"
+                            GroupValueChanged="@((string newValue) => { currentQuestion.OptionIsSelected04 = newValue == currentQuestion.Option04; HasChanges=true;} )">
                             @currentQuestion.Option04
-                        </label>
-                        <div class="col">
-                        </div>
+                        </DxRadio>
                     </div>
                 </div>
             </fieldset>

@@ -29,7 +29,8 @@ else
             <DataAnnotationsValidator />
 
             @* Вывод списка Тем. *@
-            <div role="radiogroup">
+            @* Вариант реализации с помощью компонента DxRadio *@
+@*             <div role="radiogroup">
                 @foreach (TopicModel currentTopic in TopicsList.OrderBy(i => i.OrderNumber))
                 {
                     <div class="row" @key=@currentTopic.Id>
@@ -40,7 +41,16 @@ else
                         </DxRadio>
                     </div>
                 }
-            </div>
+            </div> *@
+            @* Вариант реализации с помощью компонента DxRadioGroup *@
+            <DxRadioGroup Items="TopicsList.OrderBy(i => i.OrderNumber)"
+                          @bind-Value="@SelectedTopicId"
+                          ValueFieldName="@nameof(TopicModel.Id)"
+                          TextFieldName="@nameof(TopicModel.Name)"
+                          ItemLabelPosition="LabelPosition.Right"
+                          ItemAlignment="CheckBoxContentAlignment.Default"
+                          role="radiogroup">
+            </DxRadioGroup>
 
             @* Если зафиксированы ошибки, то *@
             @if (HasErrors)
