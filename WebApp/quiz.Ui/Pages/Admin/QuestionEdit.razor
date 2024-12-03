@@ -37,28 +37,22 @@
                     {
                         <EditForm EditContext="@CurrentEditContext" OnValidSubmit="@HandleValidSubmitAsync" OnInvalidSubmit="@HandleInvalidSubmit">
                             <DataAnnotationsValidator/>
-
                             
                             <div class="row">
                                 <label for="topic" class="col-form-label col-lg-2 ps-0">Тема: </label>
-
-                                @* Если список Тем получен с сервера, то *@
-                                @if (Topics.Any())
-                                {
-                                    <DxComboBox id="topic"
-                                        Data="@Topics"
-                                        @bind-Value="@EditingObject.TopicId"
-                                        @bind-Text="@EditingObject.TopicName"
-                                        ValueFieldName="@nameof(TopicModel.Id)"
-                                        KeyFieldName="@nameof(TopicModel.Id)"
-                                        TextFieldName="@nameof(TopicModel.Name)"
-                                        ValidateBy="ComboBoxValidateBy.Value"
-                                        CssClass="form-control col"
-                                        AllowUserInput="false"
-                                        NullText="Select a topic..."
-                                        ListRenderMode="ListRenderMode.Entire">
-                                    </DxComboBox>
-                                }
+                                <DxComboBox id="topic"
+                                    Data="@Topics"
+                                    @bind-Value="@EditingObject.TopicId"
+                                    @bind-Text="@EditingObject.TopicName"
+                                    ValueFieldName="@nameof(TopicModel.Id)"
+                                    KeyFieldName="@nameof(TopicModel.Id)"
+                                    TextFieldName="@nameof(TopicModel.Name)"
+                                    ValidateBy="ComboBoxValidateBy.Value"
+                                    CssClass="form-control col"
+                                    AllowUserInput="false"
+                                    NullText="Select a topic..."
+                                    ListRenderMode="ListRenderMode.Entire">
+                                </DxComboBox>
                             </div>
                             <div class="row">
                                 <div class="col-lg offset-lg-3 mb-3">
