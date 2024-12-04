@@ -12,7 +12,7 @@ namespace quiz.Ui.Components;
 /// </summary>
 public partial class TopicsOverview
 {
-// Отключение предупреждения "not-null property is uninitialized" для инжектируемых объектов и сервисов.
+    // Отключение предупреждения "not-null property is uninitialized" для инжектируемых объектов и сервисов.
 #pragma warning disable CS8618
     /// <summary>
     /// Ссылка на сервис для выполнения перенаправления на адреса Url. Внедряется с помощью DI.
@@ -52,8 +52,17 @@ public partial class TopicsOverview
     /// <summary>
     /// Данные выбранного в таблице элемента.
     /// </summary>
-    public TopicModel? SelectedElement;
-        
+    private TopicModel? SelectedItem
+    {
+        get => SelectedItemObject as TopicModel;
+        set => SelectedItemObject = value;
+    }
+
+    /// <summary>
+    /// Данные выбранного в таблице элемента в виде объекта типа object. Использовать типизированный объект не позволяет ограничение компонента DxGrid.
+    /// </summary>
+    object? SelectedItemObject { get; set; }
+
     /// <summary>
     /// Данные элемента таблицы, который будет выбран после завершения удаления элемента.
     /// </summary>
@@ -84,10 +93,10 @@ public partial class TopicsOverview
             bool result = true;
 
             // Если пользователь выбрал элемент в списке, то
-            if (SelectedElement != null && Objects != null)
+            if (SelectedItem != null && Objects != null)
             {
                 // Получение OrderNumber выбранного в списке элемента.
-                int orderNumberOfSelectedElement = SelectedElement.OrderNumber;
+                int orderNumberOfSelectedElement = SelectedItem.OrderNumber;
 
                 if (orderNumberOfSelectedElement > 1)
                 {
@@ -120,10 +129,10 @@ public partial class TopicsOverview
             bool result = true;
 
             // Если пользователь выбрал элемент в списке, то
-            if (SelectedElement != null && Objects != null)
+            if (SelectedItem != null && Objects != null)
             {
                 // Получение OrderNumber выбранного в списке элемента.
-                int orderNumberOfSelectedElement = SelectedElement.OrderNumber;
+                int orderNumberOfSelectedElement = SelectedItem.OrderNumber;
 
                 // Поиск элемента с OrderNumber больше, чем у выбранного.
                 TopicModel? nextElementInList = Objects
@@ -180,32 +189,6 @@ public partial class TopicsOverview
     }
 
     /// <summary>
-    /// Обработка выбора пользователем элемента из списка.
-    /// </summary>
-    private async void SelectRowAsync(Guid recordId)
-    {
-        // Формирование данных выбранного из списка пользователем элемента. 
-        SelectedElement = Objects?.FirstOrDefault(i => i.Id == recordId);
-    }
-
-    /// <summary>
-    /// Определение названия css-класса строки таблицы.
-    /// </summary>
-    private string GetRowHtmlClass(Guid objectId)
-    {
-        string result = string.Empty;
-
-        // Если Id элемента строки совпадает с выбранным пользователем элементом таблицы, то
-        if (SelectedElement != null && SelectedElement.Id == objectId)
-        {
-            // Строка становится выделенной в таблице.
-            result = "bg-info border-info rounded";
-        }
-
-        return result;
-    }
-
-    /// <summary>
     /// Обработка нажатия пользователем на кнопку "Добавить".
     /// </summary>
     private void TopicAdd()
@@ -230,10 +213,10 @@ public partial class TopicsOverview
     private async void ObjectDeleteAsync()
     {
         // Если пользователь выбрал элемент в списке, то 
-        if (SelectedElement != null && Objects != null)
+        if (SelectedItem != null && Objects != null)
         {
             // Получение элементов из списка, являющихся соседними к удаляемому.
-            List<TopicModel> sandwichedItems = Objects.FindSandwichedItem(item => item.Id == SelectedElement.Id).ToList();
+            List<TopicModel> sandwichedItems = Objects.FindSandwichedItem(item => item.Id == SelectedItem.Id).ToList();
             TopicModel previousItem = sandwichedItems[0];
             //var deletedItem = sandwichedItems[1];
             TopicModel nextItem = sandwichedItems[2];
@@ -271,7 +254,7 @@ public partial class TopicsOverview
             // Вызов функции обновления из БД списка элементов, отображаемого на форме.
             await PopulateElementsAsync();
             // В таблице становится выбранным другой, определенный перед удалением.
-            SelectedElement = SelectedElementAfterDelete;
+            SelectedItem = SelectedElementAfterDelete;
             // Обновление данных на экране пользователя.
             StateHasChanged();
         }
@@ -283,10 +266,10 @@ public partial class TopicsOverview
     private async void RecordMoveUp()
     {
         // Если пользователь выбрал элемент в списке, то 
-        if (SelectedElement != null && Objects != null)
+        if (SelectedItem != null && Objects != null)
         {
             // Получение OrderNumber выбранного в списке элемента.
-            int orderNumberOfSelectedElement = SelectedElement.OrderNumber;
+            int orderNumberOfSelectedElement = SelectedItem.OrderNumber;
 
             if (orderNumberOfSelectedElement > 1)
             {
@@ -303,11 +286,11 @@ public partial class TopicsOverview
                     int orderNumberOfPreviousElementInList = previousElementInList.OrderNumber;
                     // Обмен значениями OrderNumber.
                     previousElementInList.OrderNumber = orderNumberOfSelectedElement;
-                    SelectedElement.OrderNumber = orderNumberOfPreviousElementInList;
+                    SelectedItem.OrderNumber = orderNumberOfPreviousElementInList;
                     // Получение имени залогиненного пользователя.
                     string? currentUserName = (await AuthenticationStateTask).User.Identity?.Name;
                     // Сохранение изменений в элементах.
-                    WebApiCallResult<TopicModel> webApiCallResultUpdatedElement = await ObjectDataService.UpdateObjectAsync(SelectedElement, currentUserName);
+                    WebApiCallResult<TopicModel> webApiCallResultUpdatedElement = await ObjectDataService.UpdateObjectAsync(SelectedItem, currentUserName);
                     
                     // Если в процессе получения данных от WebAPI были зарегистрированы ошибки, то
                     if (webApiCallResultUpdatedElement.HasErrors)
@@ -341,10 +324,10 @@ public partial class TopicsOverview
     private async void RecordMoveDown()
     {
         // Если пользователь выбрал элемент в списке, то 
-        if (SelectedElement != null && Objects != null)
+        if (SelectedItem != null && Objects != null)
         {
             // Получение OrderNumber выбранного в списке элемента.
-            int orderNumberOfSelectedElement = SelectedElement.OrderNumber;
+            int orderNumberOfSelectedElement = SelectedItem.OrderNumber;
 
             // Поиск элемента с OrderNumber больше, чем у выбранного.
             TopicModel? nextElementInList = Objects
@@ -359,11 +342,11 @@ public partial class TopicsOverview
                 int orderNumberOfNextElementInList = nextElementInList.OrderNumber;
                 // Обмен значениями OrderNumber.
                 nextElementInList.OrderNumber = orderNumberOfSelectedElement;
-                SelectedElement.OrderNumber = orderNumberOfNextElementInList;
+                SelectedItem.OrderNumber = orderNumberOfNextElementInList;
                 // Получение имени залогиненного пользователя.
                 string? currentUserName = (await AuthenticationStateTask).User.Identity?.Name;
                 // Сохранение изменений в элементах.
-                WebApiCallResult<TopicModel> webApiCallResultUpdatedElement = await ObjectDataService.UpdateObjectAsync(SelectedElement, currentUserName);
+                WebApiCallResult<TopicModel> webApiCallResultUpdatedElement = await ObjectDataService.UpdateObjectAsync(SelectedItem, currentUserName);
 
                 // Если в процессе получения данных от WebAPI были зарегистрированы ошибки, то
                 if (webApiCallResultUpdatedElement.HasErrors)

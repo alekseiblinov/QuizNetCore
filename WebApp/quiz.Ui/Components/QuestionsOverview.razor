@@ -14,74 +14,73 @@
 }
 else
 {
-    @*<div style="height:250px; overflow-y:scroll">*@
-        @* Формирование таблицы со списком объектов. *@
-        <table class="table table-sm table-responsive-lg table-bordered text-center">
-            <thead>
-            <tr>
-                <th class="align-middle">Topic</th>
-                <th class="align-middle">Question text</th>
-                <th class="align-middle">Option 1</th>
-                <th class="align-middle">Option 2</th>
-                <th class="align-middle">Option 3</th>
-                <th class="align-middle">Option 4</th>
-                <th class="align-middle">Correct answer</th>
-            </tr>
-            </thead>
-            <tbody>
-                @* Если при взаимодействии с WebAPI были произошли ошибки, то *@
-                @if (HasWebApiErrors)
-                {
-                    @* Информация о проблемах взаимодействия с WebAPI *@
-                    <div class="alert alert-danger mt-2">@WebApiErrorsDescription</div>
-                }
-                else
-                {            
-                    @* Если нет данных для отображения, то *@
-                    @if (Objects == null || !Objects.Any())
-                    {
-                        // Отображение пользователю надписи "Нет данных".
-                        <p class="align-middle"><em>Нет данных</em></p>
-                    }
-                    else
-                    {
-                        <Virtualize Context="currentObject" Items="@Objects.ToList()" TItem="QuestionModel">
-                            <ItemContent>
-                                <tr class="@GetRowHtmlClass(currentObject.Id)" @onclick="() => SelectRowAsync(currentObject.Id)">
-                                    <td class="align-middle">@currentObject.TopicName</td>
-                                    <td class="align-middle">@currentObject.QuestionText</td>
-                                    <td class="align-middle">@currentObject.Option01</td>
-                                    <td class="align-middle">@currentObject.Option02</td>
-                                    <td class="align-middle">@currentObject.Option03</td>
-                                    <td class="align-middle">@currentObject.Option04</td>
-                                    <td class="align-middle">@currentObject.Answer</td>
-                                </tr>
-                            </ItemContent>
-                            <Placeholder>
-                                @* Отображение пользователю надписи "Загрузка". *@
-                                <DxLoadingPanel Visible="true"
-                                                Text="Загрузка..."
-                                                ApplyBackgroundShading="false"
-                                                IndicatorAnimationType="WaitIndicatorAnimationType.Spin">
-                                </DxLoadingPanel>
-                            </Placeholder>
-                        </Virtualize>
-                    }
-                }
-            </tbody>
-        </table>
-    @*</div>*@
+    @* Если при взаимодействии с WebAPI были произошли ошибки, то *@
+    @if (HasWebApiErrors)
+    {
+        @* Информация о проблемах взаимодействия с WebAPI *@
+        <div class="alert alert-danger mt-2">@WebApiErrorsDescription</div>
+    }
+    else
+    {            
+        @* Если нет данных для отображения, то *@
+        @if (Objects == null || !Objects.Any())
+        {
+            // Отображение пользователю надписи "Нет данных".
+            <p class="align-middle"><em>Нет данных</em></p>
+        }
+        else
+        {
+            @* Таблица со списком объектов. *@
+            <DxGrid Data="@Objects"
+                    KeyFieldName="Id"
+                    SelectionMode="GridSelectionMode.Single"
+                    @bind-SelectedDataItem="@SelectedItemObject"
+                    FooterDisplayMode="GridFooterDisplayMode.Auto"
+                    AllowSelectRowByClick="true">
+                <Columns>
+                <DxGridDataColumn FieldName="TopicName"
+                                      Caption="Topic"
+                                      TextAlignment="GridTextAlignment.Center"
+                                      CaptionAlignment="GridTextAlignment.Center" />
+                    <DxGridDataColumn FieldName="QuestionText"
+                                      Caption="Question text"
+                                      TextAlignment="GridTextAlignment.Center"
+                                      CaptionAlignment="GridTextAlignment.Center" />
+                    <DxGridDataColumn FieldName="Option01"
+                                      Caption="Option 1"
+                                      TextAlignment="GridTextAlignment.Center"
+                                      CaptionAlignment="GridTextAlignment.Center" />
+                    <DxGridDataColumn FieldName="Option02"
+                                      Caption="Option 2"
+                                      TextAlignment="GridTextAlignment.Center"
+                                      CaptionAlignment="GridTextAlignment.Center" />
+                    <DxGridDataColumn FieldName="Option03"
+                                      Caption="Option 3"
+                                      TextAlignment="GridTextAlignment.Center"
+                                      CaptionAlignment="GridTextAlignment.Center" />
+                    <DxGridDataColumn FieldName="Option04"
+                                      Caption="Option 4"
+                                      TextAlignment="GridTextAlignment.Center"
+                                      CaptionAlignment="GridTextAlignment.Center" />
+                    <DxGridDataColumn FieldName="Answer"
+                                      Caption="Correct answer"
+                                      TextAlignment="GridTextAlignment.Center"
+                                      CaptionAlignment="GridTextAlignment.Center" />
+                </Columns>
+            </DxGrid>
+        }
+    }
 
     <div class="row">
         @* Рамка отступов вокруг кнопок управления *@
         <div class="col-lg d-lg-flex align-content-stretch mx-1 mt-1">
             <DxButton Click="QuestionAdd" RenderStyle="ButtonRenderStyle.Primary" RenderStyleMode="ButtonRenderStyleMode.Outline" class="m-1 col-auto">Добавить</DxButton>
             @* Отображать дополнительные кнопки управления выбранным элементом. *@
-            <DxButton Click="() => QuestionEdit(SelectedElement?.Id ?? Guid.Empty)" RenderStyle="ButtonRenderStyle.Primary" RenderStyleMode="ButtonRenderStyleMode.Outline" class="m-1" disabled="@(SelectedElement == null)">Редактировать</DxButton>
-            <DxButton Click="ObjectDeleteAsync" RenderStyle="ButtonRenderStyle.Danger" RenderStyleMode="ButtonRenderStyleMode.Outline" class="m-1" disabled="@(SelectedElement == null)">Удалить</DxButton>
+            <DxButton Click="() => QuestionEdit(SelectedItem?.Id ?? Guid.Empty)" RenderStyle="ButtonRenderStyle.Primary" RenderStyleMode="ButtonRenderStyleMode.Outline" class="m-1" disabled="@(SelectedItem == null)">Редактировать</DxButton>
+            <DxButton Click="ObjectDeleteAsync" RenderStyle="ButtonRenderStyle.Danger" RenderStyleMode="ButtonRenderStyleMode.Outline" class="m-1" disabled="@(SelectedItem == null)">Удалить</DxButton>
         </div>
     </div>
 
     // Подключение диалоговых окон - popup-окно подтверждения удаления.
-    <DialogDelete @ref="ObjectDeleteDialog" DeletedSuccessfullyEventCallback="@DeleteDialogQuestion_OnDeletedSuccessfully" ObjectDataService="@ObjectDataService" ObjectToDeleteId="@SelectedElement?.Id"></DialogDelete>
+    <DialogDelete @ref="ObjectDeleteDialog" DeletedSuccessfullyEventCallback="@DeleteDialogQuestion_OnDeletedSuccessfully" ObjectDataService="@ObjectDataService" ObjectToDeleteId="@SelectedItem?.Id"></DialogDelete>
 }

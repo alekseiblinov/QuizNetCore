@@ -36,83 +36,81 @@ else
                 <DxProgressBar MinValue=0 MaxValue=@(IncorrectAnswers.Count + CorrectAnswers.Count) Value=@CorrectAnswers.Count LabelPosition="ProgressBarLabelPosition.Bottom" Thickness="5px"/>
             </div>
 
-            <div class="h6 text-success mt-4 mb-2">
+            <div class="h5 text-success mt-4 mb-2">
                 Правильные ответы
             </div>
 
             @* Формирование таблицы со списком вопросов, на которые был дан правильный ответ. *@
-            <table class="table table-sm table-responsive-lg table-bordered text-center">
-                <thead>
-                    <tr>
-                        <th class="align-middle">Вопрос</th>
-                        <th class="align-middle">Ответ</th>
-                        <th class="align-middle">Дата и время</th>
-                        <th class="align-middle">Интервал повторения (дней)</th>
-                        <th class="align-middle">Следующее повторение</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <Virtualize Context="currentObject" Items="@CorrectAnswers.ToList()" TItem="ResultModel">
-                        <ItemContent>
-                            <tr>
-                                <td class="align-middle">@currentObject.QuestionText</td>
-                                <td class="align-middle">@currentObject.CorrectAnswerText</td>
-                                <td class="align-middle">@currentObject.AnsweredAt</td>
-                                <td class="align-middle">@currentObject.RepetitionInterval</td>
-                                <td class="align-middle">@currentObject.NextDueCaption</td>
-                            </tr>
-                        </ItemContent>
-                        <Placeholder>
-                            @* Отображение пользователю надписи "Загрузка". *@
-                            <DxLoadingPanel Visible="true"
-                                            Text="Загрузка..."
-                                            ApplyBackgroundShading="false"
-                                            IndicatorAnimationType="WaitIndicatorAnimationType.Spin">
-                            </DxLoadingPanel>
-                        </Placeholder>
-                    </Virtualize>
-                </tbody>
-            </table>
+            <DxGrid 
+                    @ref="GrdCorrectAnswers"
+                    Data="@CorrectAnswers"
+                    KeyFieldName="Id"
+                    AllowSelectRowByClick="false">
+                <Columns>
+                    <DxGridDataColumn FieldName="QuestionText"
+                                      Caption="Вопрос"
+                                      TextAlignment="GridTextAlignment.Center"
+                                      CaptionAlignment="GridTextAlignment.Center" />
+                    <DxGridDataColumn FieldName="CorrectAnswerText"
+                                      Caption="Ответ"
+                                      TextAlignment="GridTextAlignment.Center"
+                                      CaptionAlignment="GridTextAlignment.Center" />
+                    <DxGridDataColumn FieldName="AnsweredAt"
+                                      Caption="Дата и время"
+                                      DisplayFormat="g"
+                                      TextAlignment="GridTextAlignment.Center"
+                                      CaptionAlignment="GridTextAlignment.Center" />
+                    <DxGridDataColumn FieldName="RepetitionInterval"
+                                      Caption="Интервал повторения (дней)"
+                                      TextAlignment="GridTextAlignment.Center"
+                                      CaptionAlignment="GridTextAlignment.Center" />
+                    <DxGridDataColumn FieldName="NextDueCaption"
+                                      Caption="Следующее повторение"
+                                      DisplayFormat="d"
+                                      TextAlignment="GridTextAlignment.Center"
+                                      CaptionAlignment="GridTextAlignment.Center" />
+                </Columns>
+            </DxGrid>
 
-            <div class="h6 text-danger mt-4 mb-2">
+            <div class="h5 text-danger mt-4 mb-2">
                 Неправильные ответы
             </div>
 
             @* Формирование таблицы со списком вопросов, на которые был дан неправильный ответ. *@
-            <table class="table table-sm table-responsive-lg table-bordered text-center">
-                <thead>
-                    <tr>
-                        <th class="align-middle">Вопрос</th>
-                        <th class="align-middle">Выбранный ответ</th>
-                        <th class="align-middle">Правильный ответ</th>
-                        <th class="align-middle">Дата и время</th>
-                        <th class="align-middle">Интервал повторения (дней)</th>
-                        <th class="align-middle">Следующее повторение</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <Virtualize Context="currentObject" Items="@IncorrectAnswers.ToList()" TItem="ResultModel">
-                        <ItemContent>
-                            <tr>
-                                <td class="align-middle">@currentObject.QuestionText</td>
-                                <td class="align-middle">@currentObject.SelectedAnswerText</td>
-                                <td class="align-middle">@currentObject.CorrectAnswerText</td>
-                                <td class="align-middle">@currentObject.AnsweredAt</td>
-                                <td class="align-middle">@currentObject.RepetitionInterval</td>
-                                <td class="align-middle">@currentObject.NextDue</td>
-                            </tr>
-                        </ItemContent>
-                        <Placeholder>
-                            @* Отображение пользователю надписи "Загрузка". *@
-                            <DxLoadingPanel Visible="true"
-                                            Text="Загрузка..."
-                                            ApplyBackgroundShading="false"
-                                            IndicatorAnimationType="WaitIndicatorAnimationType.Spin">
-                            </DxLoadingPanel>
-                        </Placeholder>
-                    </Virtualize>
-                </tbody>
-            </table>
+            <DxGrid 
+                @ref="GrdIncorrectAnswers"
+                Data="@IncorrectAnswers"
+                KeyFieldName="Id"
+                AllowSelectRowByClick="false">
+                <Columns>
+                    <DxGridDataColumn FieldName="QuestionText"
+                                      Caption="Вопрос"
+                                      TextAlignment="GridTextAlignment.Center"
+                                      CaptionAlignment="GridTextAlignment.Center" />
+                    <DxGridDataColumn FieldName="SelectedAnswerText"
+                                      Caption="Выбранный ответ"
+                                      TextAlignment="GridTextAlignment.Center"
+                                      CaptionAlignment="GridTextAlignment.Center" />
+                    <DxGridDataColumn FieldName="CorrectAnswerText"
+                                      Caption="Правильный ответ"
+                                      TextAlignment="GridTextAlignment.Center"
+                                      CaptionAlignment="GridTextAlignment.Center" />
+                    <DxGridDataColumn FieldName="AnsweredAt"
+                                      Caption="Дата и время"
+                                      DisplayFormat="g"
+                                      TextAlignment="GridTextAlignment.Center"
+                                      CaptionAlignment="GridTextAlignment.Center" />
+                    <DxGridDataColumn FieldName="RepetitionInterval"
+                                      Caption="Интервал повторения (дней)"
+                                      TextAlignment="GridTextAlignment.Center"
+                                      CaptionAlignment="GridTextAlignment.Center" />
+                    <DxGridDataColumn FieldName="NextDueCaption"
+                                      Caption="Следующее повторение"
+                                      DisplayFormat="d"
+                                      TextAlignment="GridTextAlignment.Center"
+                                      CaptionAlignment="GridTextAlignment.Center" />
+                </Columns>
+            </DxGrid>
 
             @* Если зафиксированы ошибки, то *@
             @if (HasErrors)

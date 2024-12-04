@@ -53,8 +53,17 @@ public partial class UsersOverview
     /// <summary>
     /// Данные выбранного в таблице элемента.
     /// </summary>
-    private UserModel? SelectedElement { get; set; }
+    private UserModel? SelectedItem
+    {
+        get => SelectedItemObject as UserModel;
+        set => SelectedItemObject = value;
+    }
 
+    /// <summary>
+    /// Данные выбранного в таблице элемента в виде объекта типа object. Использовать типизированный объект не позволяет ограничение компонента DxGrid.
+    /// </summary>
+    object? SelectedItemObject { get; set; }
+    
     /// <summary>
     /// Данные элемента таблицы, который будет выбран после завершения удаления элемента.
     /// </summary>
@@ -113,32 +122,6 @@ public partial class UsersOverview
     }
 
     /// <summary>
-    /// Обработка выбора пользователем элемента из списка.
-    /// </summary>
-    private async void SelectRowAsync(Guid recordId)
-    {
-        // Формирование данных выбранного из списка пользователем элемента. 
-        SelectedElement = Objects?.FirstOrDefault(i => i.Id == recordId);
-    }
-
-    /// <summary>
-    /// Определение названия css-класса строки таблицы.
-    /// </summary>
-    private string GetRowHtmlClass(Guid objectId)
-    {
-        string result = string.Empty;
-
-        // Если Id элемента строки совпадает с выбранным пользователем элементом таблицы, то
-        if (SelectedElement != null && SelectedElement.Id == objectId)
-        {
-            // Строка становится выделенной в таблице.
-            result = "bg-info border-info rounded";
-        }
-
-        return result;
-    }
-
-    /// <summary>
     /// Обработка нажатия пользователем на кнопку "Добавить".
     /// </summary>
     private void UserAdd()
@@ -162,10 +145,10 @@ public partial class UsersOverview
     private async void ObjectDeleteAsync()
     {
         // Если пользователь выбрал элемент в списке, то 
-        if (SelectedElement != null && Objects != null)
+        if (SelectedItem != null && Objects != null)
         {
             // Получение элементов из списка, являющихся соседними к удаляемому.
-            List<UserModel> sandwichedItems = Objects.FindSandwichedItem(item => item.Id == SelectedElement.Id).ToList();
+            List<UserModel> sandwichedItems = Objects.FindSandwichedItem(item => item.Id == SelectedItem.Id).ToList();
             UserModel previousItem = sandwichedItems[0];
             //var deletedItem = sandwichedItems[1];
             UserModel nextItem = sandwichedItems[2];
@@ -203,27 +186,9 @@ public partial class UsersOverview
             // Вызов функции обновления из БД списка элементов, отображаемого на форме.
             await PopulateElementsAsync();
             // В таблице становится выбранным другой, определенный перед удалением.
-            SelectedElement = SelectedElementAfterDelete;
+            SelectedItem = SelectedElementAfterDelete;
             // Обновление данных на экране пользователя.
             StateHasChanged();
         }
-    }
-
-    /// <summary>
-    /// Получение в виде единой строки списка ролей пользователя по его Id.
-    /// </summary>
-    private string GetUsersRolesStringById(List<RoleModel> roles)
-    {
-        string result = string.Empty;
-
-        // Перебор ролей пользователя с указанным Id и составление строки с перечислением его ролей.
-        foreach (var currentUserRole in roles)
-        {
-            result = !string.IsNullOrWhiteSpace(result) 
-                ? $"{result}; {currentUserRole.Name}" 
-                : currentUserRole.Name;
-        }
-
-        return result;
     }
 }

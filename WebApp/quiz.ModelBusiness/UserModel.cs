@@ -23,19 +23,18 @@ public class UserModel
 
     public List<RoleModel> Roles { get; set; }
 
-    public DateTime CreatedAt { get; set; }
-
     /// <summary>
-    /// Класс HTML для отображения строки с данными Пользователя.
+    /// Текстовое представление списка ролей пользователя для отображения в столбце таблицы.
     /// </summary>
-    public string UserHtmlClass
+    public string RolesCaption
     {
         get
         {
-            // Текст строк у пользователей по определённому признаку можно сделать выделенным.
-            return "align-middle";
+            return GetUsersRolesStringById(Roles);
         }
     }
+
+    public DateTime CreatedAt { get; set; }
 
     public UserModel(Guid id, string login, string email, string password, DateTime createdAt
             , List<RoleModel> roles
@@ -47,5 +46,26 @@ public class UserModel
         Password = password;
         CreatedAt = createdAt;
         Roles = roles;
+    }
+
+    /// <summary>
+    /// Получение в виде единой строки списка ролей пользователя по его Id.
+    /// </summary>
+    private string GetUsersRolesStringById(List<RoleModel>? roles)
+    {
+        string result = string.Empty;
+
+        if (roles != null)
+        {
+            // Перебор ролей пользователя с указанным Id и составление строки с перечислением его ролей.
+            foreach (var currentUserRole in roles)
+            {
+                result = !string.IsNullOrWhiteSpace(result)
+                    ? $"{result}; {currentUserRole.Name}"
+                    : currentUserRole.Name;
+            }
+        }
+
+        return result;
     }
 }

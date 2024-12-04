@@ -1,4 +1,5 @@
-﻿using quiz.ModelBusiness;
+﻿using DevExpress.Blazor;
+using quiz.ModelBusiness;
 using quiz.Ui.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -73,6 +74,15 @@ public partial class ResultsOverview
     /// Загружены ли данные в контрол полностью, или ещё производится загрузка.
     /// </summary>
     private bool IsLoaded { get; set; }
+
+    /// <summary>
+    /// Ссылка на объект грида со списком правильных ответов.
+    /// </summary>
+    private IGrid? GrdCorrectAnswers { get; set; }
+    /// <summary>
+    /// Ссылка на объект грида со списком неправильных ответов.
+    /// </summary>
+    private IGrid? GrdIncorrectAnswers { get; set; }
 
     /// <summary>
     /// Разрешено ли пользователю просматривать результаты теста.
@@ -196,6 +206,21 @@ public partial class ResultsOverview
     {
         // Установка признака, обозначающего что данные в контрол загружены полностью.
         IsLoaded = true;
+    }
+
+    protected override void OnAfterRender(bool firstRender) 
+    {
+        // Вызов функции автоподбора ширины столбцов грида со списком правильных ответов. По материалам https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxGrid.AutoFitColumnWidths. В примере в справке используется условие if (firstRender), но в этом случае объект грида равен null, поэтому условие было изменено на if (GrdCorrectAnswers != null).
+        if (GrdCorrectAnswers != null) 
+        {
+            GrdCorrectAnswers.AutoFitColumnWidths();
+        }
+
+        // Вызов функции автоподбора ширины столбцов грида со списком неправильных ответов.
+        if (GrdIncorrectAnswers != null) 
+        {
+            GrdIncorrectAnswers.AutoFitColumnWidths();
+        }
     }
 
     /// <summary>
