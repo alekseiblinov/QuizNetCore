@@ -1,13 +1,15 @@
 ﻿<AuthorizeView Roles="Администраторы">
-    <DxMenu Title="Администрирование"
-            ItemsPosition="ItemPosition.Start"
-            Orientation="Orientation.Vertical"
-            >
-        <Items>
-            <DxMenuItem Text="Пользователи" NavigateUrl="/Identity/Account/UsersOverview" IconCssClass="oi oi-people" CssClass="nav-item" />
-            <DxMenuItem Text="Темы" NavigateUrl="TopicsOverviewPage" IconCssClass="oi oi-book" />
-            <DxMenuItem Text="Вопросы" NavigateUrl="QuestionsOverviewPage" IconCssClass="oi oi-layers" />
-            <DxMenuItem Text="Тесты" NavigateUrl="Test" IconCssClass="oi oi-monitor" />
-        </Items>
-    </DxMenu>
+    <div class="h4">Администрирование</div>
+    <DxTreeView 
+        AllowSelectNodes="true" 
+        UrlMatchMode="NavigationUrlMatchMode.Prefix"
+        TextWrapEnabled="false"
+        >
+        <Nodes>
+            <DxTreeViewNode Text="Пользователи" NavigateUrl="/Identity/Account/UsersOverview" IconCssClass="oi oi-people" CssClass="nav-item" />
+            <DxTreeViewNode Text="Темы" NavigateUrl="TopicsOverviewPage" IconCssClass="oi oi-book" />
+            <DxTreeViewNode  Text="Вопросы" NavigateUrl="QuestionsOverviewPage" IconCssClass="oi oi-layers" />
+            <DxTreeViewNode Text="Тесты" NavigateUrl="Test" IconCssClass="oi oi-monitor" />
+        </Nodes>
+    </DxTreeView>
 </AuthorizeView>
