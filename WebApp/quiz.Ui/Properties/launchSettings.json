@@ -13,7 +13,8 @@
       "dotnetRunMessages": true,
       "launchBrowser": true,
       "applicationUrl": "https://localhost:7119;http://localhost:5119",
-      "launchUrl": "https://localhost:7119/TopicChooseOverviewPage/",
+      // *** Здесь слудет настраивать страницу, открываемую по умолчанию при запуске приложения.
+      "launchUrl": "https://localhost:7119/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
