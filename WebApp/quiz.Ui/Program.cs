@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using quiz.Ui.Areas.Identity;
 using quiz.Ui.Security;
 
@@ -83,6 +84,9 @@ builder.Services.AddTransient<IEmailSender, SendEmailLogic>();
 ////builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.WebHost.UseWebRoot("wwwroot");
 builder.WebHost.UseStaticWebAssets();
+// Активация возможности локализации UI. По материалам https://stackoverflow.com/questions/63614887/how-can-i-translate-strings-in-blazor-components-and-app-razor.
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+builder.Services.AddScoped<IStringLocalizer<App>,StringLocalizer<App>>();
 
 var app = builder.Build();
 
@@ -103,6 +107,14 @@ app.UseRouting();
 // Включение поддержки авторизайии и аутентификации на страницах веб-приложения.
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Активация возможности локализации контролов DevExpress. 
+var supportedCultures = SupportedCultures.Cultures.Select(x => x.Name).ToArray();
+var localizationOptions = new RequestLocalizationOptions()
+    .SetDefaultCulture(supportedCultures[0])
+    .AddSupportedCultures(supportedCultures)
+    .AddSupportedUICultures(supportedCultures);
+app.UseRequestLocalization(localizationOptions);
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");

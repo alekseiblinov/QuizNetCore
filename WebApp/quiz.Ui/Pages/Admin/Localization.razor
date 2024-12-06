@@ -1,0 +1,45 @@
+﻿@page "/Localization"
+
+@using Microsoft.Extensions.Localization;
+@using quiz.Ui.Components
+
+@inject IStringLocalizer<App> L
+
+@attribute [Authorize(Roles = "Администраторы")]
+
+<LayoutView Layout="@typeof(AdminLayout)">
+    <p class="h3">Изменение языка пользовательского интерфейса.</p>
+
+    <CultureSelector />
+
+    <p class="h4">Пример использования выбранного языка:</p>
+
+    <DxGrid Data=@Forecast
+            PageSize="5"
+            ShowFilterRow="false"
+            ShowGroupPanel="true">
+        <Columns>
+            <DxGridCommandColumn Width="155px" />
+            <DxGridDataColumn FieldName="Date" Caption=@L["Date"] DisplayFormat="D" />
+            <DxGridDataColumn FieldName="Summary" Caption=@L["Summary"] Width="150px" />
+            <DxGridDataColumn FieldName="TemperatureC" Caption=@($"{L["Temperature"]} (\x2103)") TextAlignment="GridTextAlignment.Left" Width="150px" />
+            <DxGridDataColumn FieldName="Cloudiness" Caption=@L["Cloudiness"] TextAlignment="GridTextAlignment.Left" Width="150px" />
+        </Columns>
+        <EditFormTemplate Context="EditFormContext">
+            <DxFormLayout>
+                <DxFormLayoutItem Caption=@L["Date"]>
+                    @EditFormContext.GetEditor("Date")
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption=@L["Summary"]>
+                    @EditFormContext.GetEditor("Summary")
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption=@($"{L["Temperature"]} (\x2103)")>
+                    @EditFormContext.GetEditor("TemperatureC")
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption=@L["Cloudiness"]>
+                    @EditFormContext.GetEditor("Cloudiness")
+                </DxFormLayoutItem>
+            </DxFormLayout>
+        </EditFormTemplate>
+    </DxGrid>
+</LayoutView>

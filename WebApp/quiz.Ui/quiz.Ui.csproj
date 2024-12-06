@@ -63,4 +63,8 @@
     <_ContentIncludedByDefault Remove="RadioButtons.razor" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+
 </Project>

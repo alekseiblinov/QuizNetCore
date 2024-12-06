@@ -1,0 +1,14 @@
+﻿@using System.Globalization
+@using quiz.Ui.Services
+
+@inject IJSRuntime JSRuntime
+@inject NavigationManager Nav
+
+<strong>Язык:</strong>
+<div class="d-inline-block" style="margin-bottom: 2rem">
+    @* Комбобокс со списком языков ГШ для выбора пользователем. *@
+    <DxComboBox Data="@SupportedCultures.Cultures"
+                TextFieldName="NativeName"
+                @bind-Value="@Culture">
+    </DxComboBox>
+</div>
