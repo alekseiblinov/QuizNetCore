@@ -18,7 +18,7 @@ public class WeatherForecast
 /// <summary>
 /// Страница с переключателем языка UI и простым заполненным Grid для просмотра результата.
 /// </summary>
-public partial class Localization
+public partial class LocalizationPage
 {
     private List<WeatherForecast> Forecast { get; set; }
 
