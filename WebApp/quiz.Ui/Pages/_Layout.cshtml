@@ -1,4 +1,21 @@
 ﻿@using Microsoft.AspNetCore.Components.Web
+@* Для обеспечения работы интерактивного переключателя графических тем страниц и компонентов DevExpress. По материалам https://github.com/DevExpress-Examples/blazor-theme-switcher. *@
+@using Microsoft.AspNetCore.Mvc.ViewFeatures
+@using switcher.ThemeSwitcher
+
+@inject IFileVersionProvider FileVersionProvider
+@inject ThemeService Themes
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    string? InitialThemeName = HttpContextAccessor.HttpContext?.Request.Cookies["ActiveTheme"];
+    Themes.SetActiveThemeByName(InitialThemeName);
+    var bsTheme = Themes.GetBootstrapThemeCssUrl(Themes.ActiveTheme);
+    var dxTheme = Themes.GetThemeCssUrl(Themes.ActiveTheme);
+    var hlTheme = Themes.GetHighlightJSThemeCssUrl(Themes.ActiveTheme);
+
+    string AppendVersion(string path) => FileVersionProvider.AddFileVersionToPath("/", path);
+}
+
 @namespace quiz.Ui.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
@@ -18,14 +35,36 @@
                style-src 'self';
                upgrade-insecure-requests;">*@
     <base href="~/" />
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
-    <link href="_content/DevExpress.Blazor.Themes/blazing-berry.bs5.min.css" rel="stylesheet" asp-append-version="true" />
+    @* <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" /> *@
+    @* <link href="_content/DevExpress.Blazor.Themes/blazing-berry.bs5.min.css" rel="stylesheet" asp-append-version="true" /> *@
+
+    @* Для обеспечения работы интерактивного переключателя графических тем страниц и компонентов DevExpress. По материалам https://github.com/DevExpress-Examples/blazor-theme-switcher. *@
+    @if (!string.IsNullOrEmpty(bsTheme)) 
+    {
+        <link rel="stylesheet" href="@AppendVersion(bsTheme)" bs-theme-link />
+    }
+
+    @if (!string.IsNullOrEmpty(dxTheme)) 
+    {
+        <link rel="stylesheet" href="@AppendVersion(dxTheme)" dx-theme-link />
+    }
+
+    @if (!string.IsNullOrEmpty(hlTheme)) 
+    {
+        <link rel="stylesheet" href="@hlTheme" hl-theme-link />
+    }
+    
+    <link href="switcher-resources/css/theme-switcher.css" rel="stylesheet" />
+    <link href="switcher-resources/css/themes.css" rel="stylesheet" />
 
     <link href="css/site.css" rel="stylesheet" />
     <link href="quiz.Ui.styles.css" rel="stylesheet" />
     <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
 </head>
 <body>
+Для обеспечения работы интерактивного переключателя графических тем страниц и компонентов DevExpress. По материалам https://github.com/DevExpress-Examples/blazor-theme-switcher.
+<div id="switcher-container" data-permanent></div>
+
     @RenderBody()
 
     <div id="blazor-error-ui">

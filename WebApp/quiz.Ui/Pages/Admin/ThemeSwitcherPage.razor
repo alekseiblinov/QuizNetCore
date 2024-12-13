@@ -1,0 +1,11 @@
+﻿@page "/ThemeSwitcherPage"
+
+@attribute [Authorize(Roles = "Администраторы")]
+
+<LayoutView Layout="@typeof(AdminLayout)">
+    <p class="h3">Изменение цветовой схемы.</p>
+    
+    <div class="row">
+        <ThemeSwitcher />
+    </div>
+</LayoutView>

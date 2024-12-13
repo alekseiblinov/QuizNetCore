@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using quiz.Ui.Areas.Identity;
 using quiz.Ui.Security;
+using switcher.ThemeSwitcher;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,6 +51,7 @@ builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuth
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddMvc();
 builder.Services.AddDevExpressBlazor(options => {
                                          options.BootstrapVersion = DevExpress.Blazor.BootstrapVersion.v5;
                                          options.SizeMode = DevExpress.Blazor.SizeMode.Medium;
@@ -82,6 +84,7 @@ builder.Services.AddTransient<IEmailSender, SendEmailLogic>();
 
 //builder.Services.AddScoped(i => new HttpClient {BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)});
 ////builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+builder.Services.AddScoped<ThemeService>();
 builder.WebHost.UseWebRoot("wwwroot");
 builder.WebHost.UseStaticWebAssets();
 // Активация возможности локализации UI. По материалам https://stackoverflow.com/questions/63614887/how-can-i-translate-strings-in-blazor-components-and-app-razor.
