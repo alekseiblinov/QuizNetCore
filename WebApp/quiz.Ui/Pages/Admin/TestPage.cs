@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 
 namespace quiz.Ui.Pages.Admin;
 
-public partial class Test
+public partial class TestPage
 {
 // Отключение предупреждения "not-null property is uninitialized" для инжектируемых объектов и сервисов.
 #pragma warning disable CS8618
