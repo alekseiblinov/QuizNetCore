@@ -3,7 +3,7 @@
 namespace quiz.ModelBusiness;
 
 /// <summary>
-/// Модель для класса Вопрос.
+/// Модель для класса Ответ.
 /// </summary>
 public class ResultModel
 {
